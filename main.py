@@ -47,5 +47,5 @@ csv_data = csv_data.groupby(x_axis_name, as_index=False).sum()
 x_axis = csv_data[x_axis_name].to_list()
 y_axis = csv_data[y_axis_name].to_list()
 
-chart = charts.LineChart(x_axis, y_axis, x_axis_name, y_axis_name)
+chart = charts.BarChart(x_axis, y_axis, x_axis_name, y_axis_name)
 chart.render(args.chart_name, args.chart_file_name)

@@ -8,14 +8,31 @@ class Chart:
         self.x_axis_name = x_axis_name
         self.y_axis_name = y_axis_name
 
-
-class LineChart(Chart):
     def render(self, chart_name, filename):
         chart = plt.figure()
-        chart.suptitle(chart_name)
-        plt.plot(self.x_axis, self.y_axis)
 
-        plt.xlabel(self.x_axis_name)
-        plt.ylabel(self.y_axis_name)
+        axes = chart.add_axes([0.15, 0.15, 0.75, 0.75])
+        axes.set_title(chart_name)
+        axes.set_xlabel(self.x_axis_name)
+        axes.set_ylabel(self.y_axis_name)
 
-        plt.savefig(filename)
+        self.set_type_chart(axes)
+        chart.savefig(filename)
+
+    def set_type_chart(self, axes):
+        pass
+
+
+class LineChart(Chart):
+    def set_type_chart(self, axes):
+        axes.plot(self.x_axis, self.y_axis)
+
+
+class BarChart(Chart):
+    def set_type_chart(self, axes):
+        axes.bar(self.x_axis, self.y_axis)
+
+
+class PointChart(Chart):
+    def set_type_chart(self, axes):
+        axes.scatter(self.x_axis, self.y_axis)
