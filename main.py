@@ -8,7 +8,7 @@ import sys
 import chart as charts
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--url', help='Url of file', required=True)
+parser.add_argument('--url', help='Url of data', required=True)
 parser.add_argument('--x-axis', help='Chart X axis', required=True)
 parser.add_argument('--y-axis', help='Chart Y axis', required=True)
 parser.add_argument('--chart-name', help='Chart name', default='Chart name')
