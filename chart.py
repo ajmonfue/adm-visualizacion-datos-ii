@@ -8,7 +8,7 @@ class Chart:
         self.x_axis_name = x_axis_name
         self.y_axis_name = y_axis_name
 
-    def render(self, chart_name, filename):
+    def generate_chart(self, chart_name):
         chart = plt.figure()
 
         axes = chart.add_axes([0.15, 0.15, 0.75, 0.75])
@@ -17,7 +17,8 @@ class Chart:
         axes.set_ylabel(self.y_axis_name)
 
         self.set_type_chart(axes)
-        chart.savefig(filename)
+
+        return chart
 
     def set_type_chart(self, axes):
         pass

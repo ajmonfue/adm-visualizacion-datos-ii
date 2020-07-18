@@ -7,12 +7,16 @@ import sys
 
 import chart as charts
 
+from io import BytesIO
+import base64
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--url', help='Url of data', required=True)
 parser.add_argument('--x-axis', help='Chart X axis', required=True)
 parser.add_argument('--y-axis', help='Chart Y axis', required=True)
 parser.add_argument('--chart-name', help='Chart name', default='Chart name')
 parser.add_argument('--chart-file-name', help='Chart file name')
+parser.add_argument('--base64', default=False, action='store_true', help='Print image as base64')
 
 args = parser.parse_args()
 
@@ -48,4 +52,17 @@ x_axis = csv_data[x_axis_name].to_list()
 y_axis = csv_data[y_axis_name].to_list()
 
 chart = charts.BarChart(x_axis, y_axis, x_axis_name, y_axis_name)
-chart.render(args.chart_name, args.chart_file_name)
+chartImage = chart.generate_chart(args.chart_name)
+
+if args.base64:
+    imageFile = BytesIO()
+    chartImage.savefig(imageFile, format='png')
+    imageFile.seek(0)
+
+    # https://stackoverflow.com/a/31494954
+    print(base64.b64encode(imageFile.getvalue()).decode('utf8'), end='')
+
+else:
+    chartImage.savefig(args.chart_file_name)
+
+
