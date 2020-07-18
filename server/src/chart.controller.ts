@@ -16,7 +16,7 @@ export class ChartController {
         }
         catch (err) {
             return {
-                error: err
+                error: err.message || 'Ha ocurrido un problema'
             }
         }
     }

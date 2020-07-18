@@ -14,25 +14,24 @@ export class ChartService {
             );
 
             let base64ChartImage = '';
+            let errorBuffer = '';
+
             chartGenerator.stdout.on('data', data => {
                 base64ChartImage += data.toString();
-                //console.log('Pipe data from python script ...', data.toString());
             })
 
             chartGenerator.on('close', (code) => {
-                console.log(`child process close all stdio with code ${code}`);
-                console.log('result', base64ChartImage);
+                if (code != 0) {
+                    return reject(new Error(errorBuffer || 'Error durante la ejecución del script'));
+                }
                 resolve(base64ChartImage);
             });
 
             chartGenerator.stderr.on('data', (data) => {
-                console.error(`stderr: ${data}`);
-                reject(new Error(`Error durante la ejecución del script: ${data}`));
+                errorBuffer += data.toString();
             });
 
             chartGenerator.on('error', (err) => {
-                console.error('Failed to start subprsocess.');
-                console.log(err);
                 reject(err);
             });
         })

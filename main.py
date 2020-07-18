@@ -34,11 +34,11 @@ csv_data = pandas.read_csv(urlFile)
 
 # Se comprueba si los axis están presentes en el header del csv
 if args.x_axis not in csv_data.columns:
-    print('Seleccione un valor del listado para X axis:', csv_data.columns.values)
+    print('Seleccione un valor del listado para X axis:', csv_data.columns.to_list(), file=sys.stderr, end='')
     sys.exit(1)
 
 if args.y_axis not in csv_data.columns:
-    print('Seleccione un valor del listado para Y axis:', csv_data.columns.values)
+    print('Seleccione un valor del listado para Y axis:', csv_data.columns.to_list(), file=sys.stderr, end='')
     sys.exit(1)
 
 x_axis_name = args.x_axis
