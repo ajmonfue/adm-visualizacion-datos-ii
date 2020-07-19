@@ -2,8 +2,9 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as papaparse from 'papaparse';
 import { DataService } from './data.service';
-import { IChartArguments } from '../chart/chart.service';
+import { ChartService } from './chart.service';
 import { IChartData } from '../chart-data/chart-data.model';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-chart-form',
@@ -16,15 +17,19 @@ export class ChartFormComponent {
     public data: any;
     public csvFields: string[] = [];
 
+    public loadingData: boolean = false;
+    public loadingChart: boolean = false;
+
     @Output()
-    public submitArguments: EventEmitter<IChartArguments> = new EventEmitter();
+    public getChart: EventEmitter<any> = new EventEmitter();
 
     @Output()
     public getData: EventEmitter<IChartData> = new EventEmitter();
 
     constructor(
         private fb: FormBuilder,
-        private readonly dataService: DataService
+        private readonly dataService: DataService,
+        private readonly chartService: ChartService
     ) {}
 
     ngOnInit() {
@@ -40,18 +45,25 @@ export class ChartFormComponent {
 
     public onFormDataSubmit() {
         const { url } = this.formData.value;
-        
-        this.dataService.getFromUrl(url).subscribe(data => {
-            const csvData = papaparse.parse(data, {header: true, delimiter: ',', skipEmptyLines: true});
-            this.data = csvData;
-            this.csvFields = csvData.meta.fields;
 
-            this.getData.emit({
-                headers: this.csvFields,
-                rows: csvData.data as any
+        this.loadingData = true;
+        this.dataService.getFromUrl(url)
+            .pipe(
+                finalize(() => {
+                    this.loadingData = false;
+                })
+            )
+            .subscribe(data => {
+                const csvData = papaparse.parse(data, {header: true, delimiter: ',', skipEmptyLines: true});
+                this.data = csvData;
+                this.csvFields = csvData.meta.fields;
+
+                this.getData.emit({
+                    headers: this.csvFields,
+                    rows: csvData.data as any
+                });
+                
             });
-            
-        })
         
     }
 
@@ -60,7 +72,18 @@ export class ChartFormComponent {
             ...this.formData.value,
             ...this.formArguments.value
         }
+        this.loadingChart = true;
 
-        this.submitArguments.emit(chartArguments);
+        this.chartService.getChart(chartArguments)
+            .pipe(
+                finalize(() => {
+                    this.loadingChart = false;
+                })
+            )
+            .subscribe(res => {
+                this.getChart.emit(res);
+            })
+
+        
     }
 }

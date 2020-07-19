@@ -1,1 +1,6 @@
-<img *ngIf="chartBase64" [src]="chartBase64">
+
+<nb-card *ngIf="chartBase64">
+    <nb-card-body style="text-align: center;">
+        <img [src]="chartBase64">
+    </nb-card-body>
+</nb-card>

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ChartService, IChartArguments } from './chart.service';
 
 @Component({
     selector: 'app-chart',
@@ -12,14 +11,8 @@ export class ChartComponent {
 
     public data: any;
     public csvFields: string[] = [];
-    constructor(
-        private readonly chartService: ChartService
-    ) {}
 
-    public renderChart(chartArguments: IChartArguments) {
-        this.chartService.getChart(chartArguments)
-            .subscribe(res => {
-                this.chartBase64 = `${this.base64Prefix}${res.data}`;
-            })
+    public renderChart(chartData: {data: string}) {
+        this.chartBase64 = `${this.base64Prefix}${chartData.data}`;
     }
 }

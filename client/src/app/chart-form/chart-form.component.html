@@ -1,6 +1,16 @@
 <form [formGroup]="formData" (submit)="onFormDataSubmit()">
     <input nbInput type="text" placeholder="url" formControlName="url">
-    <button nbButton status="success" type="submit" [disabled]="formData.invalid">Obtener datos</button>
+    <button
+        nbButton
+        size="small"
+        status="success"
+
+        [nbSpinner]="loadingData"
+        nbSpinnerStatus="info"
+        type="submit"
+        [disabled]="formData.invalid || loadingData">
+        Obtener datos
+    </button>
 </form>
 <form *ngIf="data" [formGroup]="formArguments" (submit)="onArgumentsSubmit()">
     <div class="form-group">
@@ -20,6 +30,16 @@
         </nb-select>
     </div>
     <div class="form-actions">
-        <button nbButton status="success" [disabled]="formArguments.invalid">Pintar gráfica</button>
+        <button
+            nbButton
+            size="small"
+            status="success"
+            
+            [nbSpinner]="loadingChart"
+            nbSpinnerStatus="info"
+            type="submit"
+            [disabled]="formArguments.invalid || loadingChart">
+            Pintar gráfica
+        </button>
     </div>
 </form>
