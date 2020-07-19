@@ -1,16 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import { spawn } from 'child_process';
 
+export interface IChartArguments {
+    url: string,
+    xAxis: string,
+    yAxis: string
+}
+
 @Injectable()
 export class ChartService {
-    public async getBase64() {
+    public async getBase64(chartArguments: IChartArguments) {
         return new Promise((resolve, reject) => {
             const chartGenerator = spawn('python3', [
                 '../main.py',
                 '--base64',
-                '--url', 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/07-16-2020.csv',
-                '--x-axis', 'Country_Region',
-                '--y-axis', 'Confirmed']
+                '--url', chartArguments.url,
+                '--x-axis', chartArguments.xAxis,
+                '--y-axis', chartArguments.yAxis]
             );
 
             let base64ChartImage = '';
