@@ -1,5 +1,15 @@
 <nb-layout>
+    <nb-sidebar [containerFixed]="false">
+        <app-chart-form (submitArguments)="chartRef.renderChart($event)"></app-chart-form>
+    </nb-sidebar>
     <nb-layout-column>
-        <router-outlet></router-outlet>
+        <nb-tabset>
+            <nb-tab tabTitle="Datos">
+                <h1>Datos</h1>
+            </nb-tab>
+            <nb-tab tabTitle="Gráfica">
+                <app-chart #chartRef></app-chart>
+            </nb-tab>
+        </nb-tabset>
     </nb-layout-column>
 </nb-layout>

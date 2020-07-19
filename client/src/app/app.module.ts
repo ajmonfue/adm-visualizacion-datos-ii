@@ -3,16 +3,19 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { ChartComponent } from './chart/chart.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbInputModule, NbButtonModule, NbSelectModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbInputModule, NbButtonModule, NbSelectModule, NbSidebarModule, NbTabsetModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ChartFormComponent } from './chart-form/chart-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ChartFormComponent,
     ChartComponent
   ],
   imports: [
@@ -28,7 +31,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     NbEvaIconsModule,
     NbInputModule,
     NbButtonModule,
-    NbSelectModule
+    NbSelectModule,
+    NbSidebarModule.forRoot(),
+    NbTabsetModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

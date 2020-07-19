@@ -1,0 +1,25 @@
+<form [formGroup]="formData" (submit)="onFormDataSubmit()">
+    <input nbInput type="text" placeholder="url" formControlName="url">
+    <button nbButton status="success" type="submit" [disabled]="formData.invalid">Obtener datos</button>
+</form>
+<form *ngIf="data" [formGroup]="formArguments" (submit)="onArgumentsSubmit()">
+    <div class="form-group">
+        <label for="">Eje X</label>
+        <nb-select placeholder="Eje X" formControlName="xAxis">
+            <nb-option *ngFor="let csvField of csvFields" [value]="csvField">
+                {{ csvField }}
+            </nb-option>
+        </nb-select>
+    </div>
+    <div class="form-group">
+        <label for="">Eje Y</label>
+        <nb-select placeholder="Eje Y" formControlName="yAxis">
+            <nb-option *ngFor="let csvField of csvFields" [value]="csvField">
+                {{ csvField }}
+            </nb-option>
+        </nb-select>
+    </div>
+    <div class="form-actions">
+        <button nbButton status="success" [disabled]="formArguments.invalid">Pintar gráfica</button>
+    </div>
+</form>
