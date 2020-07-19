@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as papaparse from 'papaparse';
 import { DataService } from './data.service';
 import { IChartArguments } from '../chart/chart.service';
+import { IChartData } from '../chart-data/chart-data.model';
 
 @Component({
     selector: 'app-chart-form',
@@ -17,6 +18,10 @@ export class ChartFormComponent {
 
     @Output()
     public submitArguments: EventEmitter<IChartArguments> = new EventEmitter();
+
+    @Output()
+    public getData: EventEmitter<IChartData> = new EventEmitter();
+
     constructor(
         private fb: FormBuilder,
         private readonly dataService: DataService
@@ -39,9 +44,13 @@ export class ChartFormComponent {
         this.dataService.getFromUrl(url).subscribe(data => {
             const csvData = papaparse.parse(data, {header: true, delimiter: ',', skipEmptyLines: true});
             this.data = csvData;
-
-
             this.csvFields = csvData.meta.fields;
+
+            this.getData.emit({
+                headers: this.csvFields,
+                rows: csvData.data as any
+            });
+            
         })
         
     }

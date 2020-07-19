@@ -1,11 +1,11 @@
 <nb-layout>
     <nb-sidebar [containerFixed]="false">
-        <app-chart-form (submitArguments)="chartRef.renderChart($event)"></app-chart-form>
+        <app-chart-form (submitArguments)="chartRef.renderChart($event)" (getData)="chartData.renderData($event)"></app-chart-form>
     </nb-sidebar>
     <nb-layout-column>
         <nb-tabset>
             <nb-tab tabTitle="Datos">
-                <h1>Datos</h1>
+                <app-chart-data #chartData></app-chart-data>
             </nb-tab>
             <nb-tab tabTitle="Gráfica">
                 <app-chart #chartRef></app-chart>

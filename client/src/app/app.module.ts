@@ -11,12 +11,14 @@ import { NbThemeModule, NbLayoutModule, NbInputModule, NbButtonModule, NbSelectM
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChartFormComponent } from './chart-form/chart-form.component';
+import { ChartDataComponent } from './chart-data/chart-data.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChartFormComponent,
-    ChartComponent
+    ChartComponent,
+    ChartDataComponent
   ],
   imports: [
     BrowserModule,
