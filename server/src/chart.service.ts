@@ -13,7 +13,7 @@ export class ChartService {
     public async getBase64(chartArguments: IChartArguments) {
         return new Promise((resolve, reject) => {
             const chartGenerator = spawn('python3', [
-                '../main.py',
+                '../script/main.py',
                 '--base64',
                 '--url', chartArguments.url,
                 '--x-axis', chartArguments.xAxis,
