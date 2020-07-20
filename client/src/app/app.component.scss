@@ -1,0 +1,8 @@
+.chart-form-container {
+    width: 25%;
+    ::ng-deep {
+        .main-container {
+            width: auto;
+        }
+    }
+}

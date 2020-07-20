@@ -4,7 +4,8 @@ import { spawn } from 'child_process';
 export interface IChartArguments {
     url: string,
     xAxis: string,
-    yAxis: string
+    yAxis: string,
+    chartType: string
 }
 
 @Injectable()
@@ -16,7 +17,9 @@ export class ChartService {
                 '--base64',
                 '--url', chartArguments.url,
                 '--x-axis', chartArguments.xAxis,
-                '--y-axis', chartArguments.yAxis]
+                '--y-axis', chartArguments.yAxis,
+                '--chart-type', chartArguments.chartType,
+                ]
             );
 
             let base64ChartImage = '';

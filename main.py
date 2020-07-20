@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--url', help='Url of data', required=True)
 parser.add_argument('--x-axis', help='Chart X axis', required=True)
 parser.add_argument('--y-axis', help='Chart Y axis', required=True)
+parser.add_argument('--chart-type', help='Chart type', default='line')
 parser.add_argument('--chart-name', help='Chart name', default='Chart name')
 parser.add_argument('--chart-file-name', help='Chart file name')
 parser.add_argument('--base64', default=False, action='store_true', help='Print image as base64')
@@ -51,7 +52,19 @@ csv_data = csv_data.groupby(x_axis_name, as_index=False).sum()
 x_axis = csv_data[x_axis_name].to_list()
 y_axis = csv_data[y_axis_name].to_list()
 
-chart = charts.BarChart(x_axis, y_axis, x_axis_name, y_axis_name)
+
+chartConstructors = {
+    'bar': charts.BarChart,
+    'line': charts.LineChart,
+    'point': charts.PointChart
+}
+
+if args.chart_type not in chartConstructors:
+    print('Tipo de gráfica inválido:', args.chart_type, file=sys.stderr, end='')
+    sys.exit(1)
+
+chartConstructor = chartConstructors.get(args.chart_type)
+chart = chartConstructor(x_axis, y_axis, x_axis_name, y_axis_name)
 chartImage = chart.generate_chart(args.chart_name)
 
 if args.base64:

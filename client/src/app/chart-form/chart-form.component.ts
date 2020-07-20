@@ -6,6 +6,21 @@ import { ChartService } from './chart.service';
 import { IChartData } from '../chart-data/chart-data.model';
 import { finalize } from 'rxjs/operators';
 
+const CHART_TYPES = [
+    {
+        key: 'line',
+        label: 'Líneas'
+    },
+    {
+        key: 'bar',
+        label: 'Barras'
+    },
+    {
+        key: 'point',
+        label: 'Puntos'
+    }
+];
+
 @Component({
     selector: 'app-chart-form',
     templateUrl: './chart-form.component.html'
@@ -19,6 +34,7 @@ export class ChartFormComponent {
 
     public loadingData: boolean = false;
     public loadingChart: boolean = false;
+    public chartTypes = CHART_TYPES;
 
     @Output()
     public getChart: EventEmitter<any> = new EventEmitter();
@@ -39,7 +55,8 @@ export class ChartFormComponent {
 
         this.formArguments = this.fb.group({
             xAxis: [ null, Validators.required ],
-            yAxis: [ null, Validators.required ]
+            yAxis: [ null, Validators.required ],
+            chartType: [ 'line', Validators.required ]
         })
     }
 

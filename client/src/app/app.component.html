@@ -1,11 +1,11 @@
 <nb-layout>
-    <nb-sidebar [containerFixed]="false">
+    <nb-sidebar [containerFixed]="false" class="chart-form-container">
         <app-chart-form
             (getChart)="tabsetRef.selectTab(tabChartRef); chartRef.renderChart($event)"
             (getData)="chartData.renderData($event)"></app-chart-form>
     </nb-sidebar>
     <nb-layout-column>
-        <nb-tabset fullWidth #tabsetRef>
+        <nb-tabset #tabsetRef>
             <nb-tab tabTitle="Datos" tabIcon="list-outline">
                 <app-chart-data #chartData></app-chart-data>
             </nb-tab>

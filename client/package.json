@@ -22,6 +22,7 @@
     "@angular/router": "~9.1.12",
     "@nebular/eva-icons": "5.1.0",
     "@nebular/theme": "^5.1.0",
+    "bootstrap": "^4.5.0",
     "eva-icons": "^1.1.2",
     "papaparse": "^5.2.0",
     "rxjs": "~6.6.0",

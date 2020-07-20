@@ -1,8 +1,22 @@
-@import 'themes';
+.form-group {
+    label {
+        margin-bottom: 0.5rem;
+        display: block;
+    }
 
-@import '~@nebular/theme/styles/globals';
+    margin-bottom: 1.5rem;
+}
 
-@include nb-install() {
-  @include nb-theme-global();
-};
-/* You can add global styles to this file, and also import other style files */
+.form-group-inline {
+    display: flex;
+    .form-control {
+        flex: 1;
+    }
+}
+
+.ml-2 {
+    margin-left: 0.5rem;
+}
+.mt-1 {
+    margin-top: 1rem !important;
+}
