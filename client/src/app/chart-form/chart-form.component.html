@@ -1,20 +1,23 @@
 <form [formGroup]="formData" (submit)="onFormDataSubmit()">
-    <div class="form-group-inline">
-        <input class="form-control" nbInput type="text" placeholder="URL de los datos" formControlName="url">
-        <button
-            class="ml-2"
-            nbButton
-            status="success"
-    
-            [nbSpinner]="loadingData"
-            nbSpinnerStatus="info"
-            type="submit"
-            [disabled]="formData.invalid || loadingData">
-            Obtener datos
-        </button>
+    <div class="form-group">
+        <label for="">URL de los datos</label>
+        <div class="form-group-inline">
+            <input class="form-control" nbInput type="text" placeholder="URL de los datos" formControlName="url">
+            <button
+                class="ml-2"
+                nbButton
+                status="success"
+        
+                [nbSpinner]="loadingData"
+                nbSpinnerStatus="info"
+                type="submit"
+                [disabled]="formData.invalid || loadingData">
+                Obtener datos
+            </button>
+        </div>
     </div>
 </form>
-<form *ngIf="data" [formGroup]="formArguments" (submit)="onArgumentsSubmit()" style="margin-top: 1.5rem;">
+<form *ngIf="data" [formGroup]="formArguments" (submit)="onArgumentsSubmit()">
     <div class="row">
         <div class="form-group col-md-6">
             <label for="">Eje X</label>
