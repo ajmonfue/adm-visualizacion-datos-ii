@@ -9,6 +9,7 @@ class Chart:
         self.y_axis_name = y_axis_name
 
     def generate_chart(self, chart_name):
+        # TODO: Ancho adaptable al contenido -> https://stackoverflow.com/a/54756766
         chart = plt.figure()
 
         axes = chart.add_axes([0.15, 0.15, 0.75, 0.75])
