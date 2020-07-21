@@ -1,19 +1,23 @@
 <form [formGroup]="formData" (submit)="onFormDataSubmit()">
     <div class="form-group">
         <label for="">URL de los datos</label>
-        <div class="form-group-inline">
-            <input class="form-control" nbInput type="text" placeholder="URL de los datos" formControlName="url">
-            <button
-                class="ml-2"
-                nbButton
-                status="success"
-        
-                [nbSpinner]="loadingData"
-                nbSpinnerStatus="info"
-                type="submit"
-                [disabled]="formData.invalid || loadingData">
-                Obtener datos
-            </button>
+        <div class="row">
+            <div class="col-xl-7">
+                <input fullWidth nbInput type="text" placeholder="URL de los datos" formControlName="url">
+            </div>
+            <div class="col-xl-5">
+                <button
+                    fullWidth
+                    nbButton
+                    status="success"
+            
+                    [nbSpinner]="loadingData"
+                    nbSpinnerStatus="info"
+                    type="submit"
+                    [disabled]="formData.invalid || loadingData">
+                    Obtener datos
+                </button>
+            </div>
         </div>
         <div class="mt-3 text-center">
             <div>o selecciona un fichero</div>
@@ -59,7 +63,7 @@
             </nb-select>
         </div>
     </div>
-    <div class="form-actions">
+    <div class="form-actions text-center">
         <button
             nbButton
             status="success"
