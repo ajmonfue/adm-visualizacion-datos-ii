@@ -8,10 +8,11 @@ import sys
 import chart as charts
 
 from io import BytesIO
+from io import StringIO
 import base64
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--url', help='Url of data', required=True)
+parser.add_argument('--url', help='Url of data')
 parser.add_argument('--x-axis', help='Chart X axis', required=True)
 parser.add_argument('--y-axis', help='Chart Y axis', required=True)
 parser.add_argument('--chart-type', help='Chart type', default='line')
@@ -29,9 +30,20 @@ if args.chart_file_name is None:
 # SOLUCION https://stackoverflow.com/a/52172355
 ssl._create_default_https_context = ssl._create_unverified_context
 
-urlFile = args.url
-# Obtener csv directamente desde url -> https://stackoverflow.com/a/41880513
-csv_data = pandas.read_csv(urlFile)
+data = None
+
+if args.url is not None:
+    # Obtener csv directamente desde url -> https://stackoverflow.com/a/41880513
+    data = args.url
+
+elif not sys.stdin.isatty():
+    data = StringIO(sys.stdin.read())
+
+else:
+    print('Especifique una url o el contenido de los datos')
+    sys.exit(1)
+
+csv_data = pandas.read_csv(data)
 
 # Se comprueba si los axis están presentes en el header del csv
 if args.x_axis not in csv_data.columns:
