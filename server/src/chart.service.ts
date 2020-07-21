@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { spawn } from 'child_process';
+import { ConfigService } from '@nestjs/config';
 
 export interface IChartArguments {
     url: string,
@@ -10,10 +11,14 @@ export interface IChartArguments {
 
 @Injectable()
 export class ChartService {
+    constructor(
+        private readonly configService: ConfigService
+    ) {}
+
     public async getBase64(chartArguments: IChartArguments) {
         return new Promise((resolve, reject) => {
-            const chartGenerator = spawn('python3', [
-                '../script/main.py',
+            const chartGenerator = spawn(this.configService.get('PYTHON_COMMAND') || 'python3', [
+                this.configService.get('SCRIPT_PATH'),
                 '--base64',
                 '--url', chartArguments.url,
                 '--x-axis', chartArguments.xAxis,
