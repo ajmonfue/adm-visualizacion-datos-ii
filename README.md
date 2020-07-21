@@ -56,3 +56,6 @@ Construir la parte del servidor, con el script de python:
 ```bash
 $ docker build -t adm-server -f server/etc/Dockerfile .
 ```
+
+**Enlaces de interés**
+* Github Packages para imágenes docker (https://docs.github.com/es/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages)
