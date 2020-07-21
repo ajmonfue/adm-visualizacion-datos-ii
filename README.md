@@ -54,5 +54,5 @@ $ docker build -t adm-client -f client/etc/Dockerfile ./client
 
 Construir la parte del servidor, con el script de python:
 ```bash
-$ docker build -t adm-server -f server/etc/Dockerfile-old .
+$ docker build -t adm-server -f server/etc/Dockerfile .
 ```
