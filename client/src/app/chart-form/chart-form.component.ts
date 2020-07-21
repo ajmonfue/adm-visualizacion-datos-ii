@@ -5,6 +5,7 @@ import { DataService } from './data.service';
 import { ChartService } from './chart.service';
 import { IChartData } from '../chart-data/chart-data.model';
 import { finalize } from 'rxjs/operators';
+import { NbToastrService } from '@nebular/theme';
 
 const CHART_TYPES = [
     {
@@ -45,7 +46,8 @@ export class ChartFormComponent {
     constructor(
         private fb: FormBuilder,
         private readonly dataService: DataService,
-        private readonly chartService: ChartService
+        private readonly chartService: ChartService,
+        private readonly toastrService: NbToastrService
     ) {}
 
     ngOnInit() {
@@ -71,9 +73,14 @@ export class ChartFormComponent {
                     this.loadingData = false;
                 })
             )
-            .subscribe(data => {
-                this.parseData(data);
-            });
+            .subscribe(
+                data => {
+                    this.parseData(data);
+                },
+                err => {
+                    this.toastrService.show(err.message || 'Error desconocido', 'Error al obtener los datos', {status: 'danger', duration: 4000, destroyByClick: true})
+                }
+            );
         
     }
 

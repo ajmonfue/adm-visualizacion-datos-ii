@@ -2,10 +2,10 @@
     <div class="form-group">
         <label for="">URL de los datos</label>
         <div class="row">
-            <div class="col-xl-7">
+            <div class="col-xl-7 mt-1">
                 <input fullWidth nbInput type="text" placeholder="URL de los datos" formControlName="url">
             </div>
-            <div class="col-xl-5">
+            <div class="col-xl-5 mt-1">
                 <button
                     fullWidth
                     nbButton
@@ -36,9 +36,9 @@
     
 </form>
 <form *ngIf="data" [formGroup]="formArguments" (submit)="onArgumentsSubmit()">
-    <hr style="border-color: #222b45;">
+    <hr style="border-color: #dadada; border-style: dashed;">
     <div class="row mt-4">
-        <div class="form-group col-md-6">
+        <div class="form-group col-xl-6">
             <label for="">Eje X</label>
             <nb-select fullWidth placeholder="Eje X" formControlName="xAxis">
                 <nb-option *ngFor="let csvField of csvFields" [value]="csvField">
@@ -46,7 +46,7 @@
                 </nb-option>
             </nb-select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-xl-6">
             <label for="">Eje Y</label>
             <nb-select fullWidth placeholder="Eje Y" formControlName="yAxis">
                 <nb-option *ngFor="let csvField of csvFields" [value]="csvField">
@@ -54,7 +54,7 @@
                 </nb-option>
             </nb-select>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-xl-6">
             <label for="">Tipo de gráfica</label>
             <nb-select fullWidth placeholder="Tipo de gráfica" formControlName="chartType">
                 <nb-option *ngFor="let chartType of chartTypes" [value]="chartType.key">
