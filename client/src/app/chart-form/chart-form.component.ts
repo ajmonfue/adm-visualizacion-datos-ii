@@ -56,7 +56,8 @@ export class ChartFormComponent {
         this.formArguments = this.fb.group({
             xAxis: [ null, Validators.required ],
             yAxis: [ null, Validators.required ],
-            chartType: [ 'line', Validators.required ]
+            chartType: [ 'line', Validators.required ],
+            dataBase64: [ null ]
         })
     }
 
@@ -71,15 +72,7 @@ export class ChartFormComponent {
                 })
             )
             .subscribe(data => {
-                const csvData = papaparse.parse(data, {header: true, delimiter: ',', skipEmptyLines: true});
-                this.data = csvData;
-                this.csvFields = csvData.meta.fields;
-
-                this.getData.emit({
-                    headers: this.csvFields,
-                    rows: csvData.data as any
-                });
-                
+                this.parseData(data);
             });
         
     }
@@ -102,5 +95,39 @@ export class ChartFormComponent {
             })
 
         
+    }
+
+    public onFileChange(event) {
+        if (!(event.target.files && event.target.files.length > 0)) return;
+        const readerText = new FileReader();
+        const readerCsv = new FileReader();
+        const file = event.target.files[0];
+
+        readerText.readAsText(file);
+        readerCsv.readAsDataURL(file);
+
+        readerText.onload = () => {  
+            const data = readerText.result;
+            this.parseData(data.toString());
+        }; 
+
+        readerCsv.onload = () => {
+            this.formArguments.get('dataBase64').setValue({
+                filename: file.name,
+                filetype: file.type,
+                value: readerCsv.result.toString().split(',')[1]
+            });
+          };
+    }
+
+    private parseData(data: string) {
+        const csvData = papaparse.parse(data, {header: true, delimiter: ',', skipEmptyLines: true});
+        this.data = csvData;
+        this.csvFields = csvData.meta.fields;
+
+        this.getData.emit({
+            headers: this.csvFields,
+            rows: csvData.data as any
+        });
     }
 }

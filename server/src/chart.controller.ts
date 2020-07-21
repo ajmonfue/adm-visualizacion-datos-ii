@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import {ChartService, IChartArguments} from "./chart.service";
 
 
@@ -6,9 +6,8 @@ import {ChartService, IChartArguments} from "./chart.service";
 export class ChartController {
     constructor(private readonly chartService: ChartService) { }
 
-    @Get()
-    async getChart(@Query() chartArguments: IChartArguments) {
-        console.log('chartArguments', chartArguments);
+    @Post()
+    async getChart(@Body() chartArguments: IChartArguments) {
         try {
             const base64 = await this.chartService.getBase64(chartArguments);
             return {

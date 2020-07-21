@@ -6,7 +6,12 @@ import { Observable } from 'rxjs';
 export interface IChartArguments {
     url: string,
     xAxis: string,
-    yAxis: string
+    yAxis: string,
+    dataBase64: {
+        filename: string,
+        filetype: string
+        value: string
+    }
 }
 @Injectable({
     providedIn: 'root'
@@ -17,6 +22,6 @@ export class ChartService {
     ) {}
 
     getChart(chartArguments: IChartArguments): Observable<{data: string}> {
-        return this.http.get<{data: string}>('/api/chart', {params: chartArguments as any});
+        return this.http.post<{data: string}>('/api/chart', chartArguments);
     }
 }

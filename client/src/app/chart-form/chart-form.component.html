@@ -15,10 +15,25 @@
                 Obtener datos
             </button>
         </div>
+        <div class="mt-3 text-center">
+            <div>o selecciona un fichero</div>
+            <button
+                class="mt-2"
+                nbButton
+                size="small"
+                status="primary"
+                type="button"
+                (click)="inputFileRef.click()">
+                Seleccionar
+            </button>
+            <input #inputFileRef type="file" style="display: none;" (change)="onFileChange($event)">
+        </div>
     </div>
+    
 </form>
 <form *ngIf="data" [formGroup]="formArguments" (submit)="onArgumentsSubmit()">
-    <div class="row">
+    <hr style="border-color: #222b45;">
+    <div class="row mt-4">
         <div class="form-group col-md-6">
             <label for="">Eje X</label>
             <nb-select fullWidth placeholder="Eje X" formControlName="xAxis">
