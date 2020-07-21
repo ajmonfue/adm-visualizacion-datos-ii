@@ -45,3 +45,14 @@ Requerimientos:
     ```
     $ python3 main.py --url http://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-06-2020.csv --x-axis Province_State --y-axis Confirmed --chart-type line
     ```
+
+## Docker
+Construir la parte del cliente:
+```bash
+$ docker build -t adm-client -f client/etc/Dockerfile ./client
+```
+
+Construir la parte del servidor, con el script de python:
+```bash
+$ docker build -t adm-server -f server/etc/Dockerfile-old .
+```

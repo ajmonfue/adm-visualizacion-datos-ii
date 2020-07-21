@@ -8,6 +8,6 @@ RUN npm run build:prod
 
 
 FROM nginx:1.19.1-alpine
-COPY ./docker/nginx-proxy.conf /etc/nginx/conf.d/proxy.conf
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY ./etc/nginx-proxy.conf /etc/nginx/conf.d/proxy.conf
+COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 EXPOSE 80
