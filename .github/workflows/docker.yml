@@ -5,6 +5,11 @@ on:
     branches:
     - master
 
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: cluster-1
+  GKE_ZONE: europe-north1-a
+
 jobs:
   client_to_registry:
     name: Build and push Docker image to GitHub Packages
@@ -23,3 +28,20 @@ jobs:
           path: client
           repository: didream/adm-visualizacion-datos-i/adm-client
           tag_with_sha: true
+          tags: ${{ github.sha }}
+
+      # Setup gcloud CLI
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+
+      # Get the GKE credentials so we can deploy to the cluster
+      - run: |-
+          gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$PROJECT_ID"
+
+
+      - name: Deploy
+        run: |-
+          kubectl set image deployment/adm-client-1 adm-client-1=adm-client-1:"${{ github.sha }}"
