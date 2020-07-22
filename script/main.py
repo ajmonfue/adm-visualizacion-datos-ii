@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 
 import argparse
-import ssl
-import pandas as pandas
 import sys
+from io import BytesIO
+import base64
 
 import chart as charts
-
-from io import BytesIO
-from io import StringIO
-import base64
+import data_source as data_sources
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--url', help='Url of data')
@@ -25,25 +22,16 @@ args = parser.parse_args()
 if args.chart_file_name is None:
     args.chart_file_name = args.chart_name
 
-# ERROR urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED]
-#   certificate verify failed: unable to get local issuer certificate (_ssl.c:1123)
-# SOLUCION https://stackoverflow.com/a/52172355
-ssl._create_default_https_context = ssl._create_unverified_context
-
-data = None
-
+data_source = None
 if args.url is not None:
-    # Obtener csv directamente desde url -> https://stackoverflow.com/a/41880513
-    data = args.url
-
+    data_source = data_sources.UrlDataSource(args.url)
 elif not sys.stdin.isatty():
-    data = StringIO(sys.stdin.read())
-
+    data_source = data_sources.StdinDataSource(sys.stdin.read())
 else:
     print('Especifique una url o el contenido de los datos')
     sys.exit(1)
 
-csv_data = pandas.read_csv(data)
+csv_data = data_source.get_data()
 
 # Se comprueba si los axis están presentes en el header del csv
 if args.x_axis not in csv_data.columns:
