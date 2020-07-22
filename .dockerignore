@@ -2,6 +2,7 @@ client
 .idea
 venv
 .git
+.github
 
 server/node_modules
 server/dist
