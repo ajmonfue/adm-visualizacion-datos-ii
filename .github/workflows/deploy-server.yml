@@ -5,9 +5,21 @@ on:
     branches:
     - master
 
+env:
+  # Datos GKE
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: cluster-1
+  GKE_ZONE: europe-north1-a
+
+  # Datos del despliegue en k8s
+  NAMESPACE_NAME: adm
+  DEPLOYMENT_NAME: adm-server-1-deployment
+  CONTAINER_NAME: adm-server-1
+  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-server
+
 jobs:
   server_to_registry:
-    name: Build and push Docker image to GitHub Packages
+    name: Build and push Docker image to GitHub Packages and deploy to GKE
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -26,22 +38,6 @@ jobs:
           tag_with_ref: true
           tags: ${{ github.sha }}
 
-  deploy_to_gke:
-    name: Deploy image version to GKE
-    runs-on: ubuntu-latest
-    env:
-      # Datos GKE
-      PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-      GKE_CLUSTER: cluster-1
-      GKE_ZONE: europe-north1-a
-
-      # Datos del despliegue en k8s
-      NAMESPACE_NAME: adm
-      DEPLOYMENT_NAME: adm-server-1-deployment
-      CONTAINER_NAME: adm-server-1
-      IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-server
-
-    steps:
       - name: Setup gcloud CLI
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
