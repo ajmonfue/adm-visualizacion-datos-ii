@@ -57,6 +57,17 @@ Mediante el argumento `--chart-type` se señala el tipo de gráfico a usar para 
 
 La ejecución del script dará como resultado la imagen de la gráfica en un fichero con nombre `Chart name.png`, por defecto, en caso de no haberse especificado otro mediante el argumento `--chart-file-name`. En caso de usar el argumento `--base64` el script imprimirá por pantalla la imagen en `base64`, sin guardarla.
 
+#### 4. Haciendo uso del componente "servidor" desarrollado en la asignatura Computación en la Nube, convierte en un servicio el framework desarrollado. Para poder acceder a este servicio, deberías desarrollar asimismo un cliente específico que permita al usuario seleccionar el origen de los datos que van a ser representados y que en el servidor se realicen las representaciones que serán mostradas por el cliente. Describe en una página la arquitectura software de la aplicación y las tecnologías desarrolladas.
+
+![Imagen de aplicación](assets/images/app.png)
+**Puede acceder a la aplicación en [http://edu.ajmonfue.me/adm-1/](http://edu.ajmonfue.me/adm-1/)**
+
+Se ha implementado un componente servidor, con [NestJS](https://nestjs.com/), el cual utiliza el script realizado en python. Por otro lado, la parte del cliente se ha realiza con [Angular 9](https://angular.io/), y en ésta se pueden realizar las mismas acciones que con el script en python:
+* Especificar los datos mediante una url o un fichero.
+* Una vez cargados los datos se puede seleccionar los parámetros necesarios para crear el gráfico (columna del eje x, columna del eje y, y tipo de gráfico). Adicionalmente, los datos cargados se muestran en una tabla.
+    ![Tabla de datos](assets/images/app-table.png)
+* Tras especificar los parámetros y darle al botón `Pintar gráfica`, se mostrará la imagen generada por el script en python.
+
 
 ## Construcción de imagen docker y publicación en Github Packages
 Construir la parte del cliente:
