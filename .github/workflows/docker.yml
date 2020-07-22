@@ -21,5 +21,5 @@ jobs:
           registry: docker.pkg.github.com
           dockerfile: client/etc/Dockerfile
           path: client
-          repository: didream/adm-visualizacion-datos-i
+          repository: didream/adm-visualizacion-datos-i/adm-client
           tag_with_ref: true
