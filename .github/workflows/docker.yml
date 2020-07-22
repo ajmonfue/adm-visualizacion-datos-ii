@@ -44,4 +44,4 @@ jobs:
 
       - name: Deploy
         run: |-
-          kubectl set image deployment/adm-client-1 adm-client-1=adm-client-1:"${{ github.sha }}"
+          kubectl set image deployment/adm-client-1 adm-client-1=adm-client-1:"${{ github.sha }}" -n adm
