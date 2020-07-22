@@ -9,10 +9,10 @@ import chart as charts
 import data_source as data_sources
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--url', help='Url of data')
 parser.add_argument('--x-axis', help='Chart X axis', required=True)
 parser.add_argument('--y-axis', help='Chart Y axis', required=True)
-parser.add_argument('--chart-type', help='Chart type', default='line')
+parser.add_argument('--url', help='Url of data')
+parser.add_argument('--chart-type', help='Chart type', default='line', choices=['line', 'bar', 'point'])
 parser.add_argument('--chart-name', help='Chart name', default='Chart name')
 parser.add_argument('--chart-file-name', help='Chart file name')
 parser.add_argument('--base64', default=False, action='store_true', help='Print image as base64')
