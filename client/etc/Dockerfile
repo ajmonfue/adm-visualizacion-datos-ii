@@ -4,7 +4,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
-RUN npm run build:prod
+RUN npm run build:prod -- --base-href /adm-1/ 
 
 
 FROM nginx:1.19.1-alpine

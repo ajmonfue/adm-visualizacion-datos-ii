@@ -22,6 +22,6 @@ export class ChartService {
     ) {}
 
     getChart(chartArguments: IChartArguments): Observable<{data: string}> {
-        return this.http.post<{data: string}>('/api/chart', chartArguments);
+        return this.http.post<{data: string}>('api/chart', chartArguments);
     }
 }

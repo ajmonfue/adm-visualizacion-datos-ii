@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: adm-client-1
+  namespace: adm
+  labels:
+    app: adm-client-1
+spec:
+  type: ClusterIP
+  selector:
+    app: adm-client-1
+  ports:
+    - protocol: TCP
+      port: 8080 # Puerto del servicio
+      targetPort: 80 # Puerto del contenedor
