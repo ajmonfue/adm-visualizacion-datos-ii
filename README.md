@@ -36,8 +36,7 @@ optional arguments:
   --base64                           Print image as base64
 ```
 
-**Uso del script**
-
+##### Uso del script
 Los datos deben estar en formato `.csv`, con `,` como separador, y pueden ser indicados mediante:
 * Una URL (argumento `--url`), por ejemplo https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-06-2020.csv.
     ```bash
@@ -60,11 +59,32 @@ Mediante el argumento `--chart-type` se señala el tipo de gráfico a usar para 
 
 La ejecución del script dará como resultado la imagen de la gráfica en un fichero con nombre `Chart name.png`, por defecto, en caso de no haberse especificado otro mediante el argumento `--chart-file-name`. En caso de usar el argumento `--base64` el script imprimirá por pantalla la imagen en `base64`, sin guardarla.
 
-**Clases**
+##### Clases
 Por un lado se ha implementado la clase [`DataSource`](script/data_source.py) y sus variantes, hijas de ésta, `UrlDataSource` y `StdinDataSource`. `UrlDataSource` se usa para obtener los datos a partir de la url y `StdinDataSource`, a partir de los datos que se pasen en la ejecución del script, mediante el fichero local, por ejemplo.
 
 Por otro lado, para pintar la gráfica, se ha implementado la clase [`Chart`](script/chart.py) y sus clases hijas, `LineChart`, `BarChart` y `PointChart`, las cuales se usan para los gráficos de tipo linea, barras y puntos respectivamente.
 
+
+#### Gráficos obtenidos
+Para los datos de la URL https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-06-2020.csv y los campos `Country_Region` para el eje de las `X` y `Active` para el eje de las `Y`:
+
+```bash
+$ python3 main.py --x-axis Country_Region --y-axis Active --chart-type line --url https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-06-2020.csv
+```
+
+Se han obtenido las siguiente gráficas:
+
+| ![Gráficos de líneas](assets/images/app-graphic-line.png) | 
+|:--:| 
+| *Gráficos de líneas* |
+
+| ![Gráficos de barras](assets/images/app-graphic-bar.png) | 
+|:--:| 
+| *Gráficos de barras* |
+
+| ![Gráficos de puntos](assets/images/app-graphic-point.png) | 
+|:--:| 
+| *Gráficos de puntos* |
 
 #### 4. Haciendo uso del componente "servidor" desarrollado en la asignatura Computación en la Nube, convierte en un servicio el framework desarrollado. Para poder acceder a este servicio, deberías desarrollar asimismo un cliente específico que permita al usuario seleccionar el origen de los datos que van a ser representados y que en el servidor se realicen las representaciones que serán mostradas por el cliente. Describe en una página la arquitectura software de la aplicación y las tecnologías desarrolladas.
 
