@@ -70,13 +70,13 @@ chartImage = chart.generate_chart(args.chart_name)
 
 if args.base64:
     imageFile = BytesIO()
-    chartImage.savefig(imageFile, format='png')
+    chartImage.savefig(imageFile, format='png', bbox_inches='tight')
     imageFile.seek(0)
 
     # https://stackoverflow.com/a/31494954
     print(base64.b64encode(imageFile.getvalue()).decode('utf8'), end='')
 
 else:
-    chartImage.savefig(args.chart_file_name)
+    chartImage.savefig(args.chart_file_name, bbox_inches='tight')
 
 
