@@ -45,6 +45,9 @@ Los datos deben estar en formato `.csv`, con `,` como separador, y pueden ser in
     ```
 * Fichero local. Por ejemplo:
     ```bash
+    $ python3 main.py --x-axis Province_State --y-axis Confirmed --chart-type line < test.csv
+    ```
+    ```bash
     $ cat test.csv | python3 main.py --x-axis Province_State --y-axis Confirmed --chart-type line 
     ```
 
@@ -56,6 +59,12 @@ Seleccione un valor del listado para Y axis: ['FIPS', 'Admin2', 'Province_State'
 Mediante el argumento `--chart-type` se señala el tipo de gráfico a usar para la representación. Se debe usar una de entre `line, bar, point`. Su valor por defecto es `line`.
 
 La ejecución del script dará como resultado la imagen de la gráfica en un fichero con nombre `Chart name.png`, por defecto, en caso de no haberse especificado otro mediante el argumento `--chart-file-name`. En caso de usar el argumento `--base64` el script imprimirá por pantalla la imagen en `base64`, sin guardarla.
+
+**Clases**
+Por un lado se ha implementado la clase [`DataSource`](script/data_source.py) y sus variantes, hijas de ésta, `UrlDataSource` y `StdinDataSource`. `UrlDataSource` se usa para obtener los datos a partir de la url y `StdinDataSource`, a partir de los datos que se pasen en la ejecución del script, mediante el fichero local, por ejemplo.
+
+Por otro lado, para pintar la gráfica, se ha implementado la clase [`Chart`](script/chart.py) y sus clases hijas, `LineChart`, `BarChart` y `PointChart`, las cuales se usan para los gráficos de tipo linea, barras y puntos respectivamente.
+
 
 #### 4. Haciendo uso del componente "servidor" desarrollado en la asignatura Computación en la Nube, convierte en un servicio el framework desarrollado. Para poder acceder a este servicio, deberías desarrollar asimismo un cliente específico que permita al usuario seleccionar el origen de los datos que van a ser representados y que en el servidor se realicen las representaciones que serán mostradas por el cliente. Describe en una página la arquitectura software de la aplicación y las tecnologías desarrolladas.
 
