@@ -18,27 +18,25 @@ Encontradas por internet:
 * [worldmapper](https://worldmapper.org/)
 
 #### 3. Desarrolla un pequeño entorno de visualización. El entorno debe separar las rutinas de representación de los datos, de las fuentes de las que se obtienen datos mediante una capa de abstracción en la que se estandaricen las interfaces mediante dataframes unificados que permitirán realizar representaciones gráficas para determinados patrones de datos. Las fuentes de datos podrían ser diversas, por tanto, asociado a cada una de ellas deberíamos disponer de un analizador/transformador que convierta el conjunto de datos desde la fuente de origen al dataframe. El patrón de diseño "Estrategia" [3, 4] puede serte útil en este nivel del desarrollo. Para una determinada fuente de datos deberías generar al menos dos representaciones, diferentes, por ejemplo, líneas y diagramas de barras. Describe en una página el diagrama de clases del  framework y la tecnología utilizada para su desarrollo. Considera al menos dos fuentes de datos para ilustrar su uso.
-Se ha desarrollado un script, en python 3, que hace uso de las librerías [`Pandas`](https://pandas.pydata.org/) para el tratamiento de los datos y [`Matplotlib`](https://matplotlib.org/) para la renderización de las gráficas. Dicho script recibe una serie de argumentos, ejecutando `python3 main.py --help` se puede obtener una descripción de estos.
+Se ha desarrollado un script, en python 3, que hace uso de las librerías [`Pandas`](https://pandas.pydata.org/) para el tratamiento de los datos y [`Matplotlib`](https://matplotlib.org/) para la renderización de las gráficas. Dicho script recibe una serie de argumentos, los cuales pueden ser listados ejecutando `python3 main.py --help`.
 
 ```bash
 $ python3 main.py --help                                                                                             
-usage: main.py [-h] --x-axis X_AXIS --y-axis Y_AXIS [--url URL] [--chart-type {line,bar,point}] [--chart-name CHART_NAME] [--chart-file-name CHART_FILE_NAME] [--base64]
+usage: main.py [-h] --x-axis X_AXIS --y-axis Y_AXIS [--url URL] [--chart-type {line,bar,point}] [--chart-name CHART_NAME]
+               [--chart-file-name CHART_FILE_NAME] [--base64]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  --x-axis X_AXIS       Chart X axis
-  --y-axis Y_AXIS       Chart Y axis
-  --url URL             Url of data
-  --chart-type {line,bar,point}
-                        Chart type
-  --chart-name CHART_NAME
-                        Chart name
-  --chart-file-name CHART_FILE_NAME
-                        Chart file name
-  --base64              Print image as base64
+  -h, --help                         show this help message and exit
+  --x-axis X_AXIS                    Chart X axis
+  --y-axis Y_AXIS                    Chart Y axis
+  --url URL                          Url of data
+  --chart-type {line,bar,point}      Chart type
+  --chart-name CHART_NAME            Chart name
+  --chart-file-name CHART_FILE_NAME  Chart file name
+  --base64                           Print image as base64
 ```
 
-**Especificación de datos**
+**Uso del script**
 
 Los datos deben estar en formato `.csv`, con `,` como separador, y pueden ser indicados mediante:
 * Una URL (argumento `--url`), por ejemplo https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-06-2020.csv.
@@ -50,14 +48,14 @@ Los datos deben estar en formato `.csv`, con `,` como separador, y pueden ser in
     $ cat test.csv | python3 main.py --x-axis Province_State --y-axis Confirmed --chart-type line 
     ```
 
-Los argumentos `--x-axis` y `--y-axis` corresponden a las columnas de datos que se representarán en los ejes X e Y respectivamente, por lo tanto su valor será el nombre de la columna asociada. En caso de especificar un nombre de columna no existente en el CSV se obtendrá el error similar a:
+Los argumentos `--x-axis` y `--y-axis` corresponden a las columnas de datos que se representarán en los ejes X e Y respectivamente, por lo tanto su valor será el nombre de la columna asociada. En caso de especificar un nombre de columna no existente en el CSV se obtendrá un error similar a:
 ```
 Seleccione un valor del listado para Y axis: ['FIPS', 'Admin2', 'Province_State', 'Country_Region', 'Last_Update', 'Lat', 'Long_', 'Confirmed', 'Deaths', 'Recovered', 'Active', 'Combined_Key']
 ```
 
-El argumento `--chart-type` señala el tipo de gráfico a usar para la representación de entre `line,bar,point`, su valor por defecto es `line`.
+Mediante el argumento `--chart-type` se señala el tipo de gráfico a usar para la representación. Se debe usar una de entre `line, bar, point`. Su valor por defecto es `line`.
 
-La ejecución del script dará como resultado la imagen de la gráfica en un fichero con nombre `Chart name.png`, por defecto, en caso no haberse especificado otro mediante el argumento `--chart-file-name`. En caso de usar el argumento `--base64` el script imprimirá por pantalla la imagen en `base64`, sin guardarla.
+La ejecución del script dará como resultado la imagen de la gráfica en un fichero con nombre `Chart name.png`, por defecto, en caso de no haberse especificado otro mediante el argumento `--chart-file-name`. En caso de usar el argumento `--base64` el script imprimirá por pantalla la imagen en `base64`, sin guardarla.
 
 
 ## Construcción de imagen docker y publicación en Github Packages

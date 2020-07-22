@@ -8,7 +8,8 @@ import base64
 import chart as charts
 import data_source as data_sources
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=80, width=130))
+
 parser.add_argument('--x-axis', help='Chart X axis', required=True)
 parser.add_argument('--y-axis', help='Chart Y axis', required=True)
 parser.add_argument('--url', help='Url of data')
