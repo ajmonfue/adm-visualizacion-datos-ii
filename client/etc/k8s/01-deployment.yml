@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: adm-client
-          image: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-client:latest
+          image: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-client-2:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

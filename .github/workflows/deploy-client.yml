@@ -13,7 +13,7 @@ env:
   NAMESPACE_NAME: adm-2
   DEPLOYMENT_NAME: adm-client
   CONTAINER_NAME: adm-client
-  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-client
+  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-client-2
 
 jobs:
   client_to_registry:
@@ -31,7 +31,7 @@ jobs:
           registry: docker.pkg.github.com
           dockerfile: client/etc/Dockerfile
           path: client
-          repository: didream/adm-visualizacion-datos-ii/adm-client
+          repository: didream/adm-visualizacion-datos-ii/adm-client-2
           tag_with_sha: true
           tags: ${{ github.sha }}
 

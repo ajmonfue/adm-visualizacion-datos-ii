@@ -15,7 +15,7 @@ env:
   NAMESPACE_NAME: adm-2
   DEPLOYMENT_NAME: adm-server
   CONTAINER_NAME: adm-server
-  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-server
+  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-server-2
 
 jobs:
   server_to_registry:
@@ -33,7 +33,7 @@ jobs:
           registry: docker.pkg.github.com
           dockerfile: server/etc/Dockerfile
           path: .
-          repository: didream/adm-visualizacion-datos-ii/adm-server
+          repository: didream/adm-visualizacion-datos-ii/adm-server-2
           tag_with_sha: true
           tag_with_ref: true
           tags: ${{ github.sha }}
