@@ -103,7 +103,8 @@ Se ha implementado un componente servidor, con [NestJS](https://nestjs.com/), el
 * Tras especificar los parámetros y darle al botón `Pintar gráfica`, se mostrará la imagen generada por el script en python.
 
 
-## Construcción de imagen docker y publicación en Github Packages
+## Anexo
+### Construcción de imagen docker y publicación en Github Packages
 Construir la parte del cliente:
 ```bash
 $ docker build -t docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-client:1.0.2  -f client/etc/Dockerfile ./client
