@@ -8,6 +8,12 @@ import base64
 import chart as charts
 import data_source as data_sources
 
+chartConstructors = {
+    'bar': charts.BarChart,
+    'line': charts.LineChart,
+    'point': charts.PointChart
+}
+
 parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=80, width=130))
 
 parser.add_argument('--x-axis', help='Chart X axis', required=True)
@@ -23,6 +29,10 @@ args = parser.parse_args()
 if args.chart_file_name is None:
     args.chart_file_name = args.chart_name
 
+if args.chart_type not in chartConstructors:
+    print('Tipo de gráfica inválido:', args.chart_type, file=sys.stderr, end='')
+    sys.exit(1)
+
 data_source = None
 if args.url is not None:
     data_source = data_sources.UrlDataSource(args.url)
@@ -35,37 +45,36 @@ else:
 csv_data = data_source.get_data()
 
 # Se comprueba si los axis están presentes en el header del csv
-if args.x_axis not in csv_data.columns:
-    print('Seleccione un valor del listado para X axis:', csv_data.columns.to_list(), file=sys.stderr, end='')
+x_axis_name = args.x_axis.split(',')
+y_axis_name = args.y_axis.split(',')
+
+if len(x_axis_name) > 1 and len(y_axis_name) > 1:
+    print('Sólo puede especificar múltiples campos para un eje')
     sys.exit(1)
 
-if args.y_axis not in csv_data.columns:
-    print('Seleccione un valor del listado para Y axis:', csv_data.columns.to_list(), file=sys.stderr, end='')
-    sys.exit(1)
+for name in x_axis_name:
+    if name not in csv_data.columns:
+        print('Seleccione un valor del listado para X axis:', csv_data.columns.to_list(), file=sys.stderr, end='')
+        sys.exit(1)
 
-x_axis_name = args.x_axis
-y_axis_name = args.y_axis
+for name in y_axis_name:
+    if name not in csv_data.columns:
+        print('Seleccione un valor del listado para Y axis:', csv_data.columns.to_list(), file=sys.stderr, end='')
+        sys.exit(1)
 
-# TODO: suma, min, max?
-csv_data = csv_data.groupby(x_axis_name, as_index=False).sum()
+group_by = x_axis_name
+if len(x_axis_name) > 1:
+    group_by = y_axis_name
+
+csv_data = csv_data.groupby(group_by, as_index=False).sum()
 
 # Se obtiene el listado de valores de la columna asociada
-x_axis = csv_data[x_axis_name].to_list()
-y_axis = csv_data[y_axis_name].to_list()
+x_axis = csv_data[x_axis_name]
+y_axis = csv_data[y_axis_name]
 
-
-chartConstructors = {
-    'bar': charts.BarChart,
-    'line': charts.LineChart,
-    'point': charts.PointChart
-}
-
-if args.chart_type not in chartConstructors:
-    print('Tipo de gráfica inválido:', args.chart_type, file=sys.stderr, end='')
-    sys.exit(1)
 
 chartConstructor = chartConstructors.get(args.chart_type)
-chart = chartConstructor(x_axis, y_axis, x_axis_name, y_axis_name)
+chart = chartConstructor(x_axis, y_axis, x_axis_name, y_axis_name, csv_data)
 chartImage = chart.generate_chart(args.chart_name)
 
 if args.base64:
