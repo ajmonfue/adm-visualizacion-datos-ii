@@ -105,4 +105,4 @@ class PointChart(Chart):
     def set_type_chart(self, axes):
         axes.set_xlabel(self.x_axis_name)
         axes.set_ylabel(self.y_axis_name)
-        axes.bar(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])
+        axes.scatter(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])
