@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 
 export interface IChartArguments {
     url: string,
-    xAxis: string,
-    yAxis: string,
+    xAxis: string | string[],
+    yAxis: string | string[],
     dataBase64: {
         filename: string,
         filetype: string

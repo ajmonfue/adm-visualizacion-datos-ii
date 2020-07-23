@@ -102,6 +102,11 @@ class BarChart(Chart):
 
 
 class PointChart(Chart):
+    def __init__(self, x_axis_name, y_axis_name, csv_data):
+        super().__init__(x_axis_name, y_axis_name, csv_data)
+        self.x_axis_name = self.x_axis_name[0] if isinstance(self.x_axis_name, list) else self.x_axis_name
+        self.y_axis_name = self.y_axis_name[0] if isinstance(self.y_axis_name, list) else self.y_axis_name
+
     def set_type_chart(self, axes):
         axes.set_xlabel(self.x_axis_name)
         axes.set_ylabel(self.y_axis_name)

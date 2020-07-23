@@ -4,8 +4,8 @@ import { ConfigService } from '@nestjs/config';
 
 export interface IChartArguments {
     url: string,
-    xAxis: string,
-    yAxis: string,
+    xAxis: string | string[],
+    yAxis: string | string[],
     chartType: string,
     dataBase64: {
         filename: string,
@@ -27,8 +27,8 @@ export class ChartService {
             const chartGenerator = spawn(this.configService.get('PYTHON_COMMAND') || 'python3', [
                     this.configService.get('SCRIPT_PATH'),
                     '--base64',
-                    '--x-axis', chartArguments.xAxis,
-                    '--y-axis', chartArguments.yAxis,
+                    '--x-axis', Array.isArray(chartArguments.xAxis) ? chartArguments.xAxis.join(',') : chartArguments.xAxis,
+                    '--y-axis', Array.isArray(chartArguments.yAxis) ? chartArguments.yAxis.join(',') : chartArguments.yAxis,
                     '--chart-type', chartArguments.chartType,
                     ...(chartArguments.url ? ['--url', chartArguments.url] : [])
                 ]
