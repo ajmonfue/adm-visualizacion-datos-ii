@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 
 
 export interface IChartArguments {
+    chartType: string,
     url: string,
-    xAxis: string | string[],
-    yAxis: string | string[],
+    xAxis: string[],
+    yAxis: string[],
     dataBase64: {
         filename: string,
         filetype: string
@@ -16,10 +17,13 @@ export interface IChartArguments {
 
 export interface IChartData {
     imageBase64: string;
-    csvData: {
-        columns: string[],
-        data: any[][],
-        index: number[]
+    sourceData: {
+        data: {[key: string]: any}[],
+        schema: {
+            fields: string[],
+            pandas_version: string,
+            primaryKey: string[]
+        }
     }
 }
 

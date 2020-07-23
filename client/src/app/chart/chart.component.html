@@ -1,6 +1,19 @@
 
-<nb-card *ngIf="chartBase64">
-    <nb-card-body style="text-align: center;">
-        <img [src]="chartBase64">
-    </nb-card-body>
-</nb-card>
+<nb-tabset fullWidth>
+    <nb-tab tabTitle="Chart.js">
+        <app-chart-data #chartData></app-chart-data>
+        <nb-card>
+            <nb-card-body>
+                <canvas #chartCanvasRef width="100%"></canvas>
+            </nb-card-body>
+            
+        </nb-card>
+    </nb-tab>
+    <nb-tab tabTitle="Matplotlib">
+        <nb-card *ngIf="chartBase64">
+            <nb-card-body style="text-align: center;">
+                <img [src]="chartBase64">
+            </nb-card-body>
+        </nb-card>
+    </nb-tab>
+</nb-tabset>

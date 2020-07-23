@@ -78,10 +78,10 @@ if args.as_json:
     imageFile = BytesIO()
     chartImage.savefig(imageFile, format='png', bbox_inches='tight')
     imageFile.seek(0)
-    
+
     result = {
         'imageBase64': base64.b64encode(imageFile.getvalue()).decode('utf8'),
-        'csvData': json.loads(csv_data.to_json(orient='split'))
+        'sourceData': json.loads(csv_data.to_json(orient='table'))
     }
     print(json.dumps(result), end='')
 

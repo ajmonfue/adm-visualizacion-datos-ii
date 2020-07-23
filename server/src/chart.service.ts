@@ -4,13 +4,25 @@ import { ConfigService } from '@nestjs/config';
 
 export interface IChartArguments {
     url: string,
-    xAxis: string | string[],
-    yAxis: string | string[],
+    xAxis: string[],
+    yAxis: string[],
     chartType: string,
     dataBase64: {
         filename: string,
         filetype: string
         value: string
+    }
+}
+
+export interface IChartData {
+    imageBase64: string,
+    sourceData: {
+        data: { [key: string]: any }[],
+        schema: {
+            fields: string[],
+            pandas_version: string,
+            primaryKey: string[]
+        }
     }
 }
 
@@ -20,19 +32,18 @@ const UTF_8 = 'utf-8';
 export class ChartService {
     constructor(
         private readonly configService: ConfigService
-    ) {}
+    ) { }
 
     public async getChart(chartArguments: IChartArguments) {
         return new Promise((resolve, reject) => {
             const chartGenerator = spawn(this.configService.get('PYTHON_COMMAND') || 'python3', [
-                    this.configService.get('SCRIPT_PATH'),
-                    '--as-json',
-                    '--x-axis', Array.isArray(chartArguments.xAxis) ? chartArguments.xAxis.join(',') : chartArguments.xAxis,
-                    '--y-axis', Array.isArray(chartArguments.yAxis) ? chartArguments.yAxis.join(',') : chartArguments.yAxis,
-                    '--chart-type', chartArguments.chartType,
-                    ...(chartArguments.url ? ['--url', chartArguments.url] : [])
-                ]
-            );
+                this.configService.get('SCRIPT_PATH'),
+                '--as-json',
+                '--x-axis', chartArguments.xAxis.join(','),
+                '--y-axis', chartArguments.yAxis.join(','),
+                '--chart-type', chartArguments.chartType,
+                ...(chartArguments.url ? ['--url', chartArguments.url] : [])
+            ]);
 
             if (chartArguments.dataBase64) {
                 const buffer = Buffer.from(chartArguments.dataBase64.value, 'base64');
@@ -53,10 +64,10 @@ export class ChartService {
                     return reject(new Error(errorBuffer || 'Error durante la ejecución del script'));
                 }
                 try {
-                    const dataResult: {imageBase64: string, csvData: { columns: string[], data: any[][], index: number[] }} = JSON.parse(dataResultBuffer)
+                    const dataResult: IChartData = JSON.parse(dataResultBuffer)
                     resolve(dataResult);
                 }
-                catch(err) {
+                catch (err) {
                     reject(err)
                 }
             });
