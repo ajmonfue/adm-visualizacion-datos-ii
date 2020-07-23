@@ -102,6 +102,9 @@ Se ha implementado un componente servidor, con [NestJS](https://nestjs.com/), el
 
 * Tras especificar los parámetros y darle al botón `Pintar gráfica`, se mostrará la imagen generada por el script en python.
 
+## Mejoras planteadas para las siguientes prácticas
+* Incorporación de una librería JS para la renderización de las gráficas en la parte del cliente, por ejemplo [chartjs](https://www.chartjs.org/). Si bien, según la experiencia adquirida en está práctica, la librería `Matplotlib` es muy fácil de usar, me parece poco usable mostrar en el cliente sólo una imagen de la gráfica, con la cual el usuario no puede interactuar. Por lo que pienso que podría ser idóneo que el script en python sólo calcule los datos a representar, a partir de los argumentos recibidos, y que sea en el cliente donde se renderice los gráficos a partir de estos datos.
+* Añadir un nuevo argumento del script para indicar el criterio de agrupación de los datos (suma, producto, mínimo, máximo, primero, último); actualmente se agrupan mediante la suma.
 
 ## Anexo
 ### Construcción de imagen docker y publicación en Github Packages
