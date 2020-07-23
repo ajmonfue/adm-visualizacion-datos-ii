@@ -98,7 +98,10 @@ export class ChartFormComponent {
                 })
             )
             .subscribe(res => {
-                this.getChart.emit(res);
+                this.getChart.emit({
+                    response: res,
+                    chartArguments: chartArguments
+                });
             })
 
         

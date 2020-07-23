@@ -5,6 +5,8 @@ import sys
 from io import BytesIO
 import base64
 
+import json
+
 import chart as charts
 import data_source as data_sources
 
@@ -22,7 +24,7 @@ parser.add_argument('--url', help='Url of data')
 parser.add_argument('--chart-type', help='Chart type', default='line', choices=['line', 'bar', 'point'])
 parser.add_argument('--chart-name', help='Chart name', default='Chart name')
 parser.add_argument('--chart-file-name', help='Chart file name')
-parser.add_argument('--base64', default=False, action='store_true', help='Print image as base64')
+parser.add_argument('--as-json', default=False, action='store_true', help='Print result as json')
 
 args = parser.parse_args()
 
@@ -72,13 +74,16 @@ chartConstructor = chartConstructors.get(args.chart_type)
 chart = chartConstructor(x_axis_name, y_axis_name, csv_data)
 chartImage = chart.generate_chart(args.chart_name)
 
-if args.base64:
+if args.as_json:
     imageFile = BytesIO()
     chartImage.savefig(imageFile, format='png', bbox_inches='tight')
     imageFile.seek(0)
 
-    # https://stackoverflow.com/a/31494954
-    print(base64.b64encode(imageFile.getvalue()).decode('utf8'), end='')
+    result = {
+        'imageBase64': base64.b64encode(imageFile.getvalue()).decode('utf8'),
+        'sourceData': json.loads(csv_data.to_json(orient='table'))
+    }
+    print(json.dumps(result), end='')
 
 else:
     # Renderiza la imagen al completo (bbox_inches='tight') -> https://stackoverflow.com/a/39089653

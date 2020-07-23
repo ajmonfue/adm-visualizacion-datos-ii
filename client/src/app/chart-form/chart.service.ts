@@ -4,15 +4,29 @@ import { Observable } from 'rxjs';
 
 
 export interface IChartArguments {
+    chartType: string,
     url: string,
-    xAxis: string | string[],
-    yAxis: string | string[],
+    xAxis: string[],
+    yAxis: string[],
     dataBase64: {
         filename: string,
         filetype: string
         value: string
     }
 }
+
+export interface IChartData {
+    imageBase64: string;
+    sourceData: {
+        data: {[key: string]: any}[],
+        schema: {
+            fields: string[],
+            pandas_version: string,
+            primaryKey: string[]
+        }
+    }
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -21,7 +35,7 @@ export class ChartService {
         private http: HttpClient
     ) {}
 
-    getChart(chartArguments: IChartArguments): Observable<{data: string}> {
-        return this.http.post<{data: string}>('api/chart', chartArguments);
+    getChart(chartArguments: IChartArguments): Observable<{data: IChartData}> {
+        return this.http.post<{data: IChartData}>('api/chart', chartArguments);
     }
 }
