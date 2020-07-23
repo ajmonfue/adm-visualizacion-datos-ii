@@ -77,6 +77,7 @@ if args.base64:
     print(base64.b64encode(imageFile.getvalue()).decode('utf8'), end='')
 
 else:
+    # Renderiza la imagen al completo (bbox_inches='tight') -> https://stackoverflow.com/a/39089653
     chartImage.savefig(args.chart_file_name, bbox_inches='tight')
 
 
