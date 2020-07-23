@@ -9,7 +9,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /adm-1/api(/|$)(.*)
+      - path: /adm-2/api(/|$)(.*)
         backend:
           serviceName: adm-server
           servicePort: 3000

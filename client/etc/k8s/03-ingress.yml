@@ -9,7 +9,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /adm-1(/|$)(.*)
+      - path: /adm-2(/|$)(.*)
         backend:
           serviceName: adm-client
           servicePort: 8080
