@@ -10,10 +10,10 @@ env:
   GKE_CLUSTER: cluster-1
   GKE_ZONE: europe-north1-a
 
-  NAMESPACE_NAME: adm
-  DEPLOYMENT_NAME: adm-client-1
-  CONTAINER_NAME: adm-client-1
-  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-client
+  NAMESPACE_NAME: adm-2
+  DEPLOYMENT_NAME: adm-client
+  CONTAINER_NAME: adm-client
+  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-client
 
 jobs:
   client_to_registry:
@@ -31,7 +31,7 @@ jobs:
           registry: docker.pkg.github.com
           dockerfile: client/etc/Dockerfile
           path: client
-          repository: didream/adm-visualizacion-datos-i/adm-client
+          repository: didream/adm-visualizacion-datos-ii/adm-client
           tag_with_sha: true
           tags: ${{ github.sha }}
 

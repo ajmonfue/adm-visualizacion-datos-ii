@@ -1,4 +1,4 @@
-# Visualización de Datos I
+# Visualización de Datos II
 
 ## Enunciados
 #### 1. Lee el documento ["Why scientists need to be better at data visualizationURL"](https://www.knowablemagazine.org/article/mind/2019/science-data-visualization) hasta la sección "Ruinous rainbows", esta última sección no incluida. Haz un resumen de no más de una página con las conclusiones que obtienes.
@@ -105,20 +105,3 @@ Se ha implementado un componente servidor, con [NestJS](https://nestjs.com/), el
 ## Mejoras planteadas para las siguientes prácticas
 * Incorporación de una librería JS para la renderización de las gráficas en la parte del cliente, por ejemplo [chartjs](https://www.chartjs.org/). Si bien, según la experiencia adquirida en está práctica, la librería `Matplotlib` es muy fácil de usar, me parece poco usable mostrar en el cliente sólo una imagen de la gráfica, con la cual el usuario no puede interactuar. Por lo que pienso que podría ser idóneo que el script en python sólo calcule los datos a representar, a partir de los argumentos recibidos, y que sea en el cliente donde se renderice los gráficos a partir de estos datos.
 * Añadir un nuevo argumento del script para indicar el criterio de agrupación de los datos (suma, producto, mínimo, máximo, primero, último); actualmente se agrupan mediante la suma.
-
-## Anexo
-### Construcción de imagen docker y publicación en Github Packages
-Construir la parte del cliente:
-```bash
-$ docker build -t docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-client:1.0.2  -f client/etc/Dockerfile ./client
-$ docker push docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-client:1.0.2
-```
-
-Construir la parte del servidor, con el script de python:
-```bash
-$ docker build -t docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-server:1.0.1  -f server/etc/Dockerfile .
-$ docker push docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-server:1.0.1
-```
-
-**Enlaces de interés**
-* Github Packages para imágenes docker (https://docs.github.com/es/packages/using-github-packages-with-your-projects-ecosystem/configuring-docker-for-use-with-github-packages)

@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: adm-client-1
-  namespace: adm
+  name: adm-client
+  namespace: adm-2
   labels:
-    app: adm-client-1
+    app: adm-client
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: adm-client-1
+      app: adm-client
   template:
     metadata:
       labels:
-        app: adm-client-1
+        app: adm-client
     spec:
       containers:
-        - name: adm-client-1
-          image: docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-client:1.0.2
+        - name: adm-client
+          image: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-client:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
