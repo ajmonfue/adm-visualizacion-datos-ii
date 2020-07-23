@@ -46,6 +46,11 @@ jobs:
         run: |-
           gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$PROJECT_ID"
 
+      - name: Create k8s resources of app
+        run: |-
+          kubectl create -f etc/k8s || true
+          kubectl create -f client/etc/k8s || true
+
       - name: Update container image
         run: |-
           kubectl set image deployment/"$DEPLOYMENT_NAME" "$CONTAINER_NAME"="$IMAGE_NAME":"${{ github.sha }}" -n "$NAMESPACE_NAME"
