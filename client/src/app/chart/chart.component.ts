@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IChartData } from '../chart-form/chart.service';
 
 @Component({
     selector: 'app-chart',
@@ -12,7 +13,7 @@ export class ChartComponent {
     public data: any;
     public csvFields: string[] = [];
 
-    public renderChart(chartData: {data: string}) {
-        this.chartBase64 = `${this.base64Prefix}${chartData.data}`;
+    public renderChart(chartData: {data: IChartData}) {
+        this.chartBase64 = `${this.base64Prefix}${chartData.data.imageBase64}`;
     }
 }

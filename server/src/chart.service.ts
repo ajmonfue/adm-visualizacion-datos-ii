@@ -22,11 +22,11 @@ export class ChartService {
         private readonly configService: ConfigService
     ) {}
 
-    public async getBase64(chartArguments: IChartArguments) {
+    public async getChart(chartArguments: IChartArguments) {
         return new Promise((resolve, reject) => {
             const chartGenerator = spawn(this.configService.get('PYTHON_COMMAND') || 'python3', [
                     this.configService.get('SCRIPT_PATH'),
-                    '--base64',
+                    '--as-json',
                     '--x-axis', Array.isArray(chartArguments.xAxis) ? chartArguments.xAxis.join(',') : chartArguments.xAxis,
                     '--y-axis', Array.isArray(chartArguments.yAxis) ? chartArguments.yAxis.join(',') : chartArguments.yAxis,
                     '--chart-type', chartArguments.chartType,
@@ -41,18 +41,24 @@ export class ChartService {
                 chartGenerator.stdin.end();
             }
 
-            let base64ChartImageBuffer = '';
+            let dataResultBuffer = '';
             let errorBuffer = '';
 
             chartGenerator.stdout.on('data', data => {
-                base64ChartImageBuffer += data.toString();
+                dataResultBuffer += data.toString();
             })
 
             chartGenerator.on('close', (code) => {
                 if (code != 0) {
                     return reject(new Error(errorBuffer || 'Error durante la ejecución del script'));
                 }
-                resolve(base64ChartImageBuffer);
+                try {
+                    const dataResult: {imageBase64: string, csvData: { columns: string[], data: any[][], index: number[] }} = JSON.parse(dataResultBuffer)
+                    resolve(dataResult);
+                }
+                catch(err) {
+                    reject(err)
+                }
             });
 
             chartGenerator.stderr.on('data', (data) => {

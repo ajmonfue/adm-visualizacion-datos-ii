@@ -13,6 +13,16 @@ export interface IChartArguments {
         value: string
     }
 }
+
+export interface IChartData {
+    imageBase64: string;
+    csvData: {
+        columns: string[],
+        data: any[][],
+        index: number[]
+    }
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -21,7 +31,7 @@ export class ChartService {
         private http: HttpClient
     ) {}
 
-    getChart(chartArguments: IChartArguments): Observable<{data: string}> {
-        return this.http.post<{data: string}>('api/chart', chartArguments);
+    getChart(chartArguments: IChartArguments): Observable<{data: IChartData}> {
+        return this.http.post<{data: IChartData}>('api/chart', chartArguments);
     }
 }
