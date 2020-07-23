@@ -1,11 +1,9 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Chart:
-    def __init__(self, x_axis, y_axis, x_axis_name, y_axis_name, csv_data):
-        #self.x_axis = x_axis
-        #self.y_axis = y_axis
-
+    def __init__(self, x_axis_name, y_axis_name, csv_data):
         self.x_axis_name = x_axis_name if len(x_axis_name) > 1 else x_axis_name[0]
         self.y_axis_name = y_axis_name if len(y_axis_name) > 1 else y_axis_name[0]
         self.csv_data = csv_data
@@ -52,18 +50,59 @@ class LineChart(Chart):
         elif isinstance(self.y_axis_name, list):
             axes.set_xlabel(self.x_axis_name)
             for name in self.y_axis_name:
-                axes.plot(self.csv_data[self.x_axis_name].to_list(), self.csv_data[name].to_list(), label=name)
+                axes.plot(self.csv_data[self.x_axis_name], self.csv_data[name], label=name)
         else:
             axes.set_xlabel(self.x_axis_name)
             axes.set_ylabel(self.y_axis_name)
-            axes.plot(self.csv_data[self.x_axis_name].to_list(), self.csv_data[self.y_axis_name].to_list())
+            axes.plot(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])
 
 
 class BarChart(Chart):
+
     def set_type_chart(self, axes):
-        axes.bar(self.x_axis, self.y_axis)
+        if isinstance(self.x_axis_name, list):
+            x_axis_range = np.arange(len(self.x_axis_name))
+            series_number = len(self.csv_data)
+            axes.margins(x=0)
+            padding = 0.05
+            bar_width = (1 - padding) / series_number
+
+            for index, row in self.csv_data.iterrows():
+                axes.bar(
+                    (x_axis_range - (0.5 - (padding / 2)) + (bar_width / 2)) + (index * bar_width),
+                    row[self.x_axis_name],
+                    label=row[self.y_axis_name],
+                    width=bar_width
+                )
+            plt.xticks(x_axis_range, self.x_axis_name)
+
+        elif isinstance(self.y_axis_name, list):
+            axes.set_xlabel(self.x_axis_name)
+            x_axis = self.csv_data[self.x_axis_name]
+
+            x_axis_range = np.arange(len(x_axis))
+            series_number = len(self.y_axis_name)
+            axes.margins(x=0)
+            padding = 0.05
+            bar_width = (1 - padding) / series_number
+
+            for index in range(len(self.y_axis_name)):
+                name = self.y_axis_name[index]
+                axes.bar(
+                    (x_axis_range - (0.5 - (padding / 2)) + (bar_width / 2)) + (index * bar_width),
+                    self.csv_data[name],
+                    label=name,
+                    width=bar_width
+                )
+            plt.xticks(x_axis_range, x_axis)
+        else:
+            axes.set_xlabel(self.x_axis_name)
+            axes.set_ylabel(self.y_axis_name)
+            axes.bar(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])
 
 
 class PointChart(Chart):
     def set_type_chart(self, axes):
-        axes.scatter(self.x_axis, self.y_axis)
+        axes.set_xlabel(self.x_axis_name)
+        axes.set_ylabel(self.y_axis_name)
+        axes.bar(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])

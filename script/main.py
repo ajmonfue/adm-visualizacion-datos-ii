@@ -68,13 +68,8 @@ if len(x_axis_name) > 1:
 
 csv_data = csv_data.groupby(group_by, as_index=False).sum()
 
-# Se obtiene el listado de valores de la columna asociada
-x_axis = csv_data[x_axis_name]
-y_axis = csv_data[y_axis_name]
-
-
 chartConstructor = chartConstructors.get(args.chart_type)
-chart = chartConstructor(x_axis, y_axis, x_axis_name, y_axis_name, csv_data)
+chart = chartConstructor(x_axis_name, y_axis_name, csv_data)
 chartImage = chart.generate_chart(args.chart_name)
 
 if args.base64:
