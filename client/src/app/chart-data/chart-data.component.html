@@ -1,14 +1,14 @@
 <table *ngIf="data">
     <thead>
         <tr>
-            <th *ngFor="let header of data.headers">
+            <th *ngFor="let header of data.headers" [selectedByAxis]="header" [chartArguments]="arguments">
                 {{ header }}
             </th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let row of data.rows">
-            <td *ngFor="let header of data.headers">
+            <td *ngFor="let header of data.headers" [selectedByAxis]="header" [chartArguments]="arguments">
                 {{ row[header] }}
             </td>
         </tr>

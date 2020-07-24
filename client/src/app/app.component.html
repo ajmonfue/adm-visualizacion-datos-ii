@@ -2,14 +2,16 @@
     <nb-sidebar [containerFixed]="false" class="chart-form-container">
         <app-chart-form
             (getChart)="tabsetRef.selectTab(tabChartRef); chartRef.renderChart($event)"
-            (getData)="chartData.renderData($event)"></app-chart-form>
+            (getData)="tabsetRef.selectTab(tabDataRef); chartData.renderData($event)"
+            (argumentsChange)="chartData.chartArguments = $event">
+        </app-chart-form>
     </nb-sidebar>
     <nb-layout-column>
         <nb-tabset #tabsetRef>
-            <nb-tab tabTitle="Datos" tabIcon="list-outline">
+            <nb-tab tabTitle="Datos" tabIcon="list-outline" #tabDataRef>
                 <app-chart-data #chartData></app-chart-data>
             </nb-tab>
-            <nb-tab tabTitle="Gráfica" tabIcon="pie-chart-outline" #tabChartRef>
+            <nb-tab tabTitle="Gráficos" tabIcon="pie-chart-outline" #tabChartRef>
                 <app-chart #chartRef></app-chart>
             </nb-tab>
         </nb-tabset>

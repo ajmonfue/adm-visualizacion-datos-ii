@@ -19,6 +19,8 @@ class Chart:
         figure_width = x_axis_size * 0.15
         if figure_width < 15:
             figure_width = 15
+        elif figure_width > 25:
+            figure_width = 25
 
         chart = plt.figure(figsize=(figure_width, 5))
 
@@ -101,7 +103,7 @@ class BarChart(Chart):
             axes.bar(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])
 
 
-class PointChart(Chart):
+class ScatterChart(Chart):
     def __init__(self, x_axis_name, y_axis_name, csv_data):
         super().__init__(x_axis_name, y_axis_name, csv_data)
         self.x_axis_name = self.x_axis_name[0] if isinstance(self.x_axis_name, list) else self.x_axis_name
@@ -111,3 +113,5 @@ class PointChart(Chart):
         axes.set_xlabel(self.x_axis_name)
         axes.set_ylabel(self.y_axis_name)
         axes.scatter(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])
+
+

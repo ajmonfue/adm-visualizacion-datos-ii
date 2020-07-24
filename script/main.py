@@ -13,18 +13,21 @@ import data_source as data_sources
 chartConstructors = {
     'bar': charts.BarChart,
     'line': charts.LineChart,
-    'point': charts.PointChart
+    'scatter': charts.ScatterChart
 }
 
-parser = argparse.ArgumentParser(formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=80, width=130))
+parser = argparse.ArgumentParser(
+    formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=80, width=130)
+)
 
 parser.add_argument('--x-axis', help='Chart X axis', required=True)
 parser.add_argument('--y-axis', help='Chart Y axis', required=True)
 parser.add_argument('--url', help='Url of data')
-parser.add_argument('--chart-type', help='Chart type', default='line', choices=['line', 'bar', 'point'])
+parser.add_argument('--chart-type', help='Chart type', default='line', choices=['line', 'bar', 'scatter'])
 parser.add_argument('--chart-name', help='Chart name', default='Chart name')
 parser.add_argument('--chart-file-name', help='Chart file name')
 parser.add_argument('--as-json', default=False, action='store_true', help='Print result as json')
+parser.add_argument('--group-by', help='Print result as json')
 
 args = parser.parse_args()
 
@@ -46,7 +49,7 @@ else:
 
 csv_data = data_source.get_data()
 
-# Se comprueba si los axis están presentes en el header del csv
+# Se comprueba si los campos seleccionados para los ejes están presentes en el header del csv
 x_axis_name = args.x_axis.split(',')
 y_axis_name = args.y_axis.split(',')
 
@@ -64,11 +67,20 @@ for name in y_axis_name:
         print('Seleccione un valor del listado para Y axis:', csv_data.columns.to_list(), file=sys.stderr, end='')
         sys.exit(1)
 
-group_by = x_axis_name
-if len(x_axis_name) > 1:
-    group_by = y_axis_name
 
-csv_data = csv_data.groupby(group_by, as_index=False).sum()
+# Agrupación de los datos
+group_by = None
+
+if args.chart_type == 'scatter':
+    group_by = args.group_by
+else:
+    group_by = x_axis_name
+    if len(x_axis_name) > 1:
+        group_by = y_axis_name
+
+if group_by is not None:
+    csv_data = csv_data.groupby(group_by, as_index=False).sum()
+
 
 chartConstructor = chartConstructors.get(args.chart_type)
 chart = chartConstructor(x_axis_name, y_axis_name, csv_data)
