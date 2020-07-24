@@ -17,8 +17,8 @@ const CHART_TYPES = [
         label: 'Barras'
     },
     {
-        key: 'point',
-        label: 'Puntos'
+        key: 'scatter',
+        label: 'Dispersión'
     }
 ];
 
@@ -47,6 +47,8 @@ export class ChartFormComponent {
     @Output()
     public argumentsChange: EventEmitter<any> = new EventEmitter();
 
+    private formArgumentsInitialValues: any;
+
     constructor(
         private fb: FormBuilder,
         private readonly dataService: DataService,
@@ -60,15 +62,13 @@ export class ChartFormComponent {
             dataBase64: [ null ]
         })
 
-        this.initFormArguments();
-    }
-
-    private initFormArguments() {
         this.formArguments = this.fb.group({
             xAxis: [ [], Validators.required ],
             yAxis: [ [], Validators.required ],
             chartType: [ 'line', Validators.required ]
         });
+
+        this.formArgumentsInitialValues = this.formArguments.value;
 
         this.formArguments.valueChanges.subscribe(values => {
             this.argumentsChange.emit(values);
@@ -88,6 +88,7 @@ export class ChartFormComponent {
             .subscribe(
                 data => {
                     this.parseData(data);
+                    this.formData.get('dataBase64').setValue(null);
                 },
                 err => {
                     this.toastrService.show(err.message || 'Error desconocido', 'Error al obtener los datos', {status: 'danger', duration: 4000, destroyByClick: true})
@@ -109,12 +110,18 @@ export class ChartFormComponent {
                     this.loadingChart = false;
                 })
             )
-            .subscribe(res => {
-                this.getChart.emit({
-                    response: res,
-                    chartArguments: chartArguments
-                });
-            })
+            .subscribe(
+                res => {
+                    this.getChart.emit({
+                        response: res,
+                        chartArguments: chartArguments
+                    });
+                },
+                (err: {error: string, message: string, statusCode: number}) => {
+                    console.log('Error:', err.message);
+                    this.toastrService.show(err.message || 'Error desconocido', 'Error al obtener el gráfico', {status: 'danger', duration: 4000, destroyByClick: true})
+                }
+            )
 
         
     }
@@ -140,6 +147,7 @@ export class ChartFormComponent {
                 filetype: file.type,
                 value: base64
             });
+            this.formData.get('url').setValue(null);
         };
     }
 
@@ -148,7 +156,7 @@ export class ChartFormComponent {
         this.data = csvData;
         this.csvFields = csvData.meta.fields;
 
-        this.initFormArguments();
+        this.formArguments.reset(this.formArgumentsInitialValues);
         this.getData.emit({
             headers: this.csvFields,
             rows: csvData.data as any

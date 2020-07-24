@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 
 export interface IChartArguments {
@@ -36,6 +37,9 @@ export class ChartService {
     ) {}
 
     getChart(chartArguments: IChartArguments): Observable<{data: IChartData}> {
-        return this.http.post<{data: IChartData}>('api/chart', chartArguments);
+        return this.http.post<{data: IChartData}>('api/chart', chartArguments)
+            .pipe(
+                catchError((err: HttpErrorResponse) => throwError(err.error))
+            )
     }
 }
