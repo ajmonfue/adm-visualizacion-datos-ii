@@ -1,4 +1,4 @@
-export interface IChartData {
+export interface IChartImportedData {
     headers: string[];
     rows: {[key: string]: string}[];
 }

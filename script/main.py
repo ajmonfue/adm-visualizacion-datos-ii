@@ -40,7 +40,7 @@ parser.add_argument('--as-json', default=False, action='store_true', help='Print
 parser.add_argument('--group-by', help='Print result as json')
 parser.add_argument(
     '--group-by-func',
-    help='Function to group by',
+    help='Grouping function',
     choices=["sum", "prod", "min", "max", "first", "last"],
     default="sum"
 )

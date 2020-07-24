@@ -7,6 +7,7 @@ export interface IChartArguments {
     xAxis: string[],
     yAxis: string[],
     chartType: string,
+    groupByFunction: string,
     dataBase64: {
         filename: string,
         filetype: string
@@ -42,7 +43,8 @@ export class ChartService {
                 '--x-axis', chartArguments.xAxis.join(','),
                 '--y-axis', chartArguments.yAxis.join(','),
                 '--chart-type', chartArguments.chartType,
-                ...(chartArguments.url ? ['--url', chartArguments.url] : [])
+                ...(chartArguments.url ? ['--url', chartArguments.url] : []),
+                ...(chartArguments.groupByFunction ? ['--group-by-func', chartArguments.groupByFunction] : []),
             ]);
 
             if (chartArguments.dataBase64) {

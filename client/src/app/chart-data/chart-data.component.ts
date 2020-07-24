@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, ChangeDetectorRef, Pipe, Directive, HostBinding } from "@angular/core";
-import { IChartData } from './chart-data.model';
+import { IChartImportedData } from './chart-data.model';
 import { IChartArguments } from '../chart-form/chart.service';
 
 @Directive({
@@ -33,7 +33,7 @@ export class SelectedByAxisDirective {
 })
 export class ChartDataComponent {
     @Input()
-    public data: IChartData;
+    public data: IChartImportedData;
 
     public arguments: IChartArguments;
 
