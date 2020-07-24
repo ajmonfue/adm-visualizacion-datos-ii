@@ -24,7 +24,8 @@ const CHART_TYPES = [
 
 @Component({
     selector: 'app-chart-form',
-    templateUrl: './chart-form.component.html'
+    templateUrl: './chart-form.component.html',
+    styleUrls: ['./chart-form.component.scss']
 })
 export class ChartFormComponent {
     public formData: FormGroup;
@@ -43,6 +44,9 @@ export class ChartFormComponent {
     @Output()
     public getData: EventEmitter<IChartData> = new EventEmitter();
 
+    @Output()
+    public argumentsChange: EventEmitter<any> = new EventEmitter();
+
     constructor(
         private fb: FormBuilder,
         private readonly dataService: DataService,
@@ -52,14 +56,22 @@ export class ChartFormComponent {
 
     ngOnInit() {
         this.formData = this.fb.group({
-            url: [null, Validators.required ]
+            url: [null, Validators.required ],
+            dataBase64: [ null ]
         })
 
+        this.initFormArguments();
+    }
+
+    private initFormArguments() {
         this.formArguments = this.fb.group({
-            xAxis: [ null, Validators.required ],
-            yAxis: [ null, Validators.required ],
-            chartType: [ 'line', Validators.required ],
-            dataBase64: [ null ]
+            xAxis: [ [], Validators.required ],
+            yAxis: [ [], Validators.required ],
+            chartType: [ 'line', Validators.required ]
+        });
+
+        this.formArguments.valueChanges.subscribe(values => {
+            this.argumentsChange.emit(values);
         })
     }
 
@@ -122,12 +134,13 @@ export class ChartFormComponent {
         }; 
 
         readerCsv.onload = () => {
-            this.formArguments.get('dataBase64').setValue({
+            const base64 = readerCsv.result.toString().split(',')[1];
+            this.formData.get('dataBase64').setValue({
                 filename: file.name,
                 filetype: file.type,
-                value: readerCsv.result.toString().split(',')[1]
+                value: base64
             });
-          };
+        };
     }
 
     private parseData(data: string) {
@@ -135,6 +148,7 @@ export class ChartFormComponent {
         this.data = csvData;
         this.csvFields = csvData.meta.fields;
 
+        this.initFormArguments();
         this.getData.emit({
             headers: this.csvFields,
             rows: csvData.data as any

@@ -41,15 +41,18 @@ export class ChartComponent {
             data: {
                 labels: xAxis.length > 1 ? xAxis : data.map(d => d[xAxis[0]]),
                 datasets: this.getDatasets(data, xAxis, yAxis)
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
             }
-        })        
+        });
     }
 
     private getDatasets(data: any[], xAxis: string[], yAxis: string[]): Chart.ChartDataSets[] {
         if (xAxis.length > 1) {
             const yAxisSingle = yAxis[0];
-            const hidden = data.length > 15;
-            return data.map(row => {
+            return data.map((row, index) => {
                 const color = this.generateRandomColor();
                 return {
                     label: row[yAxisSingle],
@@ -57,7 +60,7 @@ export class ChartComponent {
                     fill: false,
                     borderColor: color,
                     backgroundColor: color,
-                    hidden
+                    hidden: index >= 5
                 }
             })
         }

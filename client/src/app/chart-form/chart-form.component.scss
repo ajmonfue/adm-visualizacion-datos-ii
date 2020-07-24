@@ -1,0 +1,14 @@
+.form-group-axis {
+    padding: .5rem;
+    border-radius: 5px;
+    
+    &.x-axis {
+        background-color: #3366ff;
+        color: white;
+    }
+
+    &.y-axis {
+        background-color: #ff3d71;
+        color: white;
+    }
+}
