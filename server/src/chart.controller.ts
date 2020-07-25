@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, InternalServerErrorException } from '@nestjs/common';
 import {ChartService, IChartArguments} from "./chart.service";
 
 
@@ -9,15 +9,13 @@ export class ChartController {
     @Post()
     async getChart(@Body() chartArguments: IChartArguments) {
         try {
-            const base64 = await this.chartService.getBase64(chartArguments);
+            const chartData = await this.chartService.getChart(chartArguments);
             return {
-                data: base64
+                data: chartData
             }
         }
         catch (err) {
-            return {
-                error: err.message || 'Ha ocurrido un problema'
-            }
+            throw new InternalServerErrorException(err.message || 'Ha ocurrido un problema');
         }
     }
 }

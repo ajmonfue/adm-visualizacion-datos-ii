@@ -38,21 +38,25 @@
 <form *ngIf="data" [formGroup]="formArguments" (submit)="onArgumentsSubmit()">
     <hr style="border-color: #dadada; border-style: dashed;">
     <div class="row mt-4">
-        <div class="form-group col-xl-6">
-            <label for="">Eje X</label>
-            <nb-select fullWidth placeholder="Eje X" formControlName="xAxis">
-                <nb-option *ngFor="let csvField of csvFields" [value]="csvField">
-                    {{ csvField }}
-                </nb-option>
-            </nb-select>
+        <div class="col-xl-6">
+            <div class="form-group form-group-axis x-axis">
+                <label for="">Eje X</label>
+                <nb-select multiple fullWidth placeholder="Eje X" formControlName="xAxis">
+                    <nb-option *ngFor="let csvField of csvFields" [value]="csvField">
+                        {{ csvField }}
+                    </nb-option>
+                </nb-select>
+            </div>
         </div>
-        <div class="form-group col-xl-6">
-            <label for="">Eje Y</label>
-            <nb-select fullWidth placeholder="Eje Y" formControlName="yAxis">
-                <nb-option *ngFor="let csvField of csvFields" [value]="csvField">
-                    {{ csvField }}
-                </nb-option>
-            </nb-select>
+        <div class="col-xl-6">
+            <div class="form-group form-group-axis y-axis">
+                <label for="">Eje Y</label>
+                <nb-select multiple fullWidth placeholder="Eje Y" formControlName="yAxis">
+                    <nb-option *ngFor="let csvField of csvFields" [value]="csvField">
+                        {{ csvField }}
+                    </nb-option>
+                </nb-select>
+            </div>
         </div>
         <div class="form-group col-xl-6">
             <label for="">Tipo de gráfica</label>

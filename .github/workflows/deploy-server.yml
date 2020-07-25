@@ -12,10 +12,10 @@ env:
   GKE_ZONE: europe-north1-a
 
   # Datos del despliegue en k8s
-  NAMESPACE_NAME: adm
-  DEPLOYMENT_NAME: adm-server-1-deployment
-  CONTAINER_NAME: adm-server-1
-  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-i/adm-server
+  NAMESPACE_NAME: adm-2
+  DEPLOYMENT_NAME: adm-server
+  CONTAINER_NAME: adm-server
+  IMAGE_NAME: docker.pkg.github.com/didream/adm-visualizacion-datos-ii/adm-server-2
 
 jobs:
   server_to_registry:
@@ -33,7 +33,7 @@ jobs:
           registry: docker.pkg.github.com
           dockerfile: server/etc/Dockerfile
           path: .
-          repository: didream/adm-visualizacion-datos-i/adm-server
+          repository: didream/adm-visualizacion-datos-ii/adm-server-2
           tag_with_sha: true
           tag_with_ref: true
           tags: ${{ github.sha }}
@@ -48,6 +48,11 @@ jobs:
       - name: Get the GKE credentials
         run: |-
           gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$PROJECT_ID"
+
+      - name: Create k8s resources of app
+        run: |-
+          kubectl create -f etc/k8s || true
+          kubectl create -f server/etc/k8s || true
 
       - name: Update container image
         run: |-
