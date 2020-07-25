@@ -12,8 +12,11 @@ Una de las malas prácticas más comunes es usar la escala de colores del arco i
 #### Incorporación de librería JS para la representación de las gráficas
 Se ha implementada esta mejora con el fin de mejorar la usabilidad y otorgar al usuario una experencia interactiva con la gráfica. Para ello se ha incorporado [`Chart.js`](https://www.chartjs.org/) a la implementación del cliente y añadido la implementación para generar los gráficos análogos a los generados por Matplotlib. Dichos gráficos, creados con Chart.js, son generados a partir de los mismos datos usados por Matplotlib.
 
-#### Se permite seleccionar múltiples campos asociados a un eje
-Se permite seleccionar múltiples campos en ambos ejes, pero no a la vez. Ésto es aplicable para las gráficas de líneas y barras.
+#### Indicar la función a ejecutar en la agrupación de datos
+Actualmente, la función que el script en python ejecutaba para la agrupación de los datos era la suma, sin embargo Matplotlib implementa tambien otras; producto, mínimo, máximo, primera ocurrencia y última ocurrencia. Para lo cual, con el fin de indicar la función de agrupación a usar, se ha añadido un nuevo argumento al script, `--group-by-func`, el cual pude tener uno de los siguientes valores: `sum`, `prod`, `min`, `max`, `first` o `last` y  por defecto es `sum`. De igual forma, se ha añadido en el formulario del cliente un selector asociado a este nuevo argumento.
+
+### 3. Incorpora en el entorno anterior la posibilidad de comparar múltiples grupos (introduciendo multiples líneas o barras) mediante la selección previa de los elementos a comparar.
+Para esto se ha permitido seleccionar múltiples campos por eje, sin embargo para que la gráfica se renderize correctamente, sólo se pueden especificar para un eje a la vez.
 
 En el caso de seleccionarlos en el eje `X`, estos representarán cada posición de dicho eje; y el campo seleccionado del eje `Y` represetará, por un lado, el campo de agrupación de los datos, y por otro, por cada valor del campo, se creará una serie/grupo en la gráfica.
 
@@ -31,8 +34,8 @@ Para el caso del eje `Y`, cada campo seleccionado representará un serie/grupo. 
 |---|---|
 | ![Múltiples campos en el eje `Y` (Chart.js)](assets/images/yaxis-multiple-chartjs.png) | ![Múltiples campos en el eje `Y` (Matplotlib)](assets/images/yaxis-multiple-matplotlib.png) |
 
-#### Adición de gráfica de dispersión (Scatter)
-Se ha incorporado este tipo de gráficas para comparar dos variables distintas, una variable por eje, por lo que a pesar que en el formulario de cliente se pueda seleccionar múltiples cambios, para la presentación de este tipo de gráficas sólo se tomará en cuenta el primer campo especificado para cada eje. 
+### 4. Incorpora nuevos elementos de representación como Scatter Plot.
+Se ha renombrado el gráfica de puntos de la primera entrega por este tipo, gráfica de dispersión. Las gráficas de dispersión sirven comparar dos variables distintas, una variable por eje, por lo que a pesar que en el formulario de cliente se pueda seleccionar múltiples campos por eje, para la representación de este tipo de gráficas sólo se tomará en cuenta el primero. 
 
 **Datos**: https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/07-16-2020.csv
 
@@ -40,8 +43,7 @@ Se ha incorporado este tipo de gráficas para comparar dos variables distintas, 
 |---|---|
 | ![Ejemplo gráfica de dispersión (Chart.js)](assets/images/scatter-example-chartjs.png) | ![Ejemplo gráfica de dispersión (Matplotlib)](assets/images/scatter-example-matplotlib.png) |
 
-#### Indicar la función a ejecutar en la agrupación de datos
-Actualmente, la función que el script en python ejecutaba para la agrupación de los datos era la suma, sin embargo Matplotlib implementa tambien otras; producto, mínimo, máximo, primera ocurrencia y última ocurrencia. Para lo cual, con el fin de indicar la función de agrupación a usar, se ha añadido un nuevo argumento al script, `--group-by-func`, el cual pude tener uno de los siguientes valores: `sum`, `prod`, `min`, `max`, `first` o `last` y  por defecto es `sum`. De igual forma, se ha añadido en el formulario del cliente un selector asociado a este nuevo argumento.
+### 5. Elabora un informe de no más de una página en el que describas la herramienta y la tecnología utilizada. Actualiza tus diagramas de clase para que incluyan los nuevos elementos incorporados.
 
 
 ## Mejoras planteadas
