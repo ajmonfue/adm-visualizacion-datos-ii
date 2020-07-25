@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-class Chart:
+class ADMChart:
     def __init__(self, x_axis_name, y_axis_name, csv_data):
         self.x_axis_name = x_axis_name if len(x_axis_name) > 1 else x_axis_name[0]
         self.y_axis_name = y_axis_name if len(y_axis_name) > 1 else y_axis_name[0]
@@ -44,7 +44,7 @@ class Chart:
         pass
 
 
-class LineChart(Chart):
+class LineChart(ADMChart):
     def set_type_chart(self, axes):
         if isinstance(self.x_axis_name, list):
             for index, row in self.csv_data.iterrows():
@@ -59,7 +59,7 @@ class LineChart(Chart):
             axes.plot(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])
 
 
-class BarChart(Chart):
+class BarChart(ADMChart):
 
     def set_type_chart(self, axes):
         if isinstance(self.x_axis_name, list):
@@ -103,7 +103,7 @@ class BarChart(Chart):
             axes.bar(self.csv_data[self.x_axis_name], self.csv_data[self.y_axis_name])
 
 
-class ScatterChart(Chart):
+class ScatterChart(ADMChart):
     def __init__(self, x_axis_name, y_axis_name, csv_data):
         super().__init__(x_axis_name, y_axis_name, csv_data)
         self.x_axis_name = self.x_axis_name[0] if isinstance(self.x_axis_name, list) else self.x_axis_name

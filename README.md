@@ -44,8 +44,17 @@ Se ha renombrado el gráfica de puntos de la primera entrega por este tipo, grá
 | ![Ejemplo gráfica de dispersión (Chart.js)](assets/images/scatter-example-chartjs.png) | ![Ejemplo gráfica de dispersión (Matplotlib)](assets/images/scatter-example-matplotlib.png) |
 
 ### 5. Elabora un informe de no más de una página en el que describas la herramienta y la tecnología utilizada. Actualiza tus diagramas de clase para que incluyan los nuevos elementos incorporados.
+Con respecto a la primera entrega se ha incorporado la librería [`Chart.js`](https://www.chartjs.org/) para la creación de las gráficas en el cliente, como se ha comentado anteriormente, por lo cual se ha creado una jerarquía de clases igual a la del script en python.
 
+| ![Jerarquía de clases de gráficas](assets/images/chart-class-hierarchy.png) | 
+|:--:| 
+| *Jerarquía de clases de gráficas* |
+
+Dicha jerarquía difiere de la primera entrega en que se ha renombrado la clase `PointChart` a `ScatterChart`, como se ha comentado anteriormente.
+
+### 6. Haciendo uso del componente "servidor" desarrollado en la asignatura Computación en la Nube, convierte en un servicio el framework desarrollado. Para poder acceder a este servicio, deberías desarrollar asimismo un cliente específico que permita al usuario seleccionar el origen de los datos que van a ser representados y que en el servidor se realicen las representaciones que serán mostradas por el cliente. Describe en una página la arquitectura software de la aplicación y las tecnologías desarrolladas.
 
 ## Mejoras planteadas
 * Añadir campo al formulario del cliente para indicar la columna de agrupación, útil para las gráficas de dispersión.
+* Añadir otros formatos de las fuentes de datos a representar, por ejemplo `.json`.
 
