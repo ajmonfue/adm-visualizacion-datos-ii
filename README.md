@@ -54,6 +54,12 @@ Dicha jerarquía difiere de la primera entrega en que se ha renombrado la clase 
 
 ### 6. Haciendo uso del componente "servidor" desarrollado en la asignatura Computación en la Nube, convierte en un servicio el framework desarrollado. Para poder acceder a este servicio, deberías desarrollar asimismo un cliente específico que permita al usuario seleccionar el origen de los datos que van a ser representados y que en el servidor se realicen las representaciones que serán mostradas por el cliente. Describe en una página la arquitectura software de la aplicación y las tecnologías desarrolladas.
 
+La aplicación, con respecto a la primera entrega, mantiene la misma arquitectura, con los tres componentes diferenciados (cliente, servidor, y script en python). Sin embargo difiere en la ejecución del script; en la primera entrega el resultado exitoso de la ejecución del script era la imagen del gráfico en base64, mientras en esta versión lo es la imagen en base64 y los datos utilizados para la generación del gráfico, en un formato json (argumento `--as-json`). Dichos datos serán utilizados en el cliente, por Chart.js, para la creación de las gráficas interactivas.
+
+| ![Arquitectura de aplicación](assets/images/architecture.png) | 
+|:--:| 
+| *Arquitectura de aplicación* |
+
 ## Mejoras planteadas
 * Añadir campo al formulario del cliente para indicar la columna de agrupación, útil para las gráficas de dispersión.
 * Añadir otros formatos de las fuentes de datos a representar, por ejemplo `.json`.
