@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as papaparse from 'papaparse';
 import { DataService } from './data.service';
 import { ChartService } from './chart.service';
-import { IChartData } from '../chart-data/chart-data.model';
+import { IChartImportedData } from '../chart-data/chart-data.model';
 import { finalize } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
 
@@ -22,13 +22,40 @@ const CHART_TYPES = [
     }
 ];
 
+const GROUP_BY_FUNCTIONS = [
+    {
+        key: 'sum',
+        label: 'Suma'
+    },
+    {
+        key: 'max',
+        label: 'Máximo'
+    },
+    {
+        key: 'min',
+        label: 'Mínimo'
+    },
+    {
+        key: 'prod',
+        label: 'Producto'
+    },
+    {
+        key: 'first',
+        label: 'Primera ocurrencia'
+    },
+    {
+        key: 'last',
+        label: 'Última ocurrencia'
+    },
+]
+
 @Component({
     selector: 'app-chart-form',
     templateUrl: './chart-form.component.html',
     styleUrls: ['./chart-form.component.scss']
 })
 export class ChartFormComponent {
-    public formData: FormGroup;
+    public formSourceData: FormGroup;
     public formArguments: FormGroup;
 
     public data: any;
@@ -37,12 +64,13 @@ export class ChartFormComponent {
     public loadingData: boolean = false;
     public loadingChart: boolean = false;
     public chartTypes = CHART_TYPES;
+    public groupByFunctions = GROUP_BY_FUNCTIONS;
 
     @Output()
     public getChart: EventEmitter<any> = new EventEmitter();
 
     @Output()
-    public getData: EventEmitter<IChartData> = new EventEmitter();
+    public getData: EventEmitter<IChartImportedData> = new EventEmitter();
 
     @Output()
     public argumentsChange: EventEmitter<any> = new EventEmitter();
@@ -57,7 +85,7 @@ export class ChartFormComponent {
     ) {}
 
     ngOnInit() {
-        this.formData = this.fb.group({
+        this.formSourceData = this.fb.group({
             url: [null, Validators.required ],
             dataBase64: [ null ]
         })
@@ -65,7 +93,8 @@ export class ChartFormComponent {
         this.formArguments = this.fb.group({
             xAxis: [ [], Validators.required ],
             yAxis: [ [], Validators.required ],
-            chartType: [ 'line', Validators.required ]
+            chartType: [ 'line', Validators.required ],
+            groupByFunction: [ 'sum',  ]
         });
 
         this.formArgumentsInitialValues = this.formArguments.value;
@@ -76,7 +105,7 @@ export class ChartFormComponent {
     }
 
     public onFormDataSubmit() {
-        const { url } = this.formData.value;
+        const { url } = this.formSourceData.value;
 
         this.loadingData = true;
         this.dataService.getFromUrl(url)
@@ -88,7 +117,7 @@ export class ChartFormComponent {
             .subscribe(
                 data => {
                     this.parseData(data);
-                    this.formData.get('dataBase64').setValue(null);
+                    this.formSourceData.get('dataBase64').setValue(null);
                 },
                 err => {
                     this.toastrService.show(err.message || 'Error desconocido', 'Error al obtener los datos', {status: 'danger', duration: 4000, destroyByClick: true})
@@ -99,7 +128,7 @@ export class ChartFormComponent {
 
     public onArgumentsSubmit() {
         const chartArguments = {
-            ...this.formData.value,
+            ...this.formSourceData.value,
             ...this.formArguments.value
         }
         this.loadingChart = true;
@@ -142,12 +171,12 @@ export class ChartFormComponent {
 
         readerCsv.onload = () => {
             const base64 = readerCsv.result.toString().split(',')[1];
-            this.formData.get('dataBase64').setValue({
+            this.formSourceData.get('dataBase64').setValue({
                 filename: file.name,
                 filetype: file.type,
                 value: base64
             });
-            this.formData.get('url').setValue(null);
+            this.formSourceData.get('url').setValue(null);
         };
     }
 

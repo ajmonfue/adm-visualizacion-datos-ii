@@ -9,6 +9,7 @@ export interface IChartArguments {
     url: string,
     xAxis: string[],
     yAxis: string[],
+    groupByFunction: string,
     dataBase64: {
         filename: string,
         filetype: string

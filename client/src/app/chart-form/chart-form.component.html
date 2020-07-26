@@ -1,4 +1,4 @@
-<form [formGroup]="formData" (submit)="onFormDataSubmit()">
+<form [formGroup]="formSourceData" (submit)="onFormDataSubmit()">
     <div class="form-group">
         <label for="">URL de los datos</label>
         <div class="row">
@@ -14,7 +14,7 @@
                     [nbSpinner]="loadingData"
                     nbSpinnerStatus="info"
                     type="submit"
-                    [disabled]="formData.invalid || loadingData">
+                    [disabled]="formSourceData.invalid || loadingData">
                     Obtener datos
                 </button>
             </div>
@@ -63,6 +63,14 @@
             <nb-select fullWidth placeholder="Tipo de gráfica" formControlName="chartType">
                 <nb-option *ngFor="let chartType of chartTypes" [value]="chartType.key">
                     {{ chartType.label }}
+                </nb-option>
+            </nb-select>
+        </div>
+        <div class="form-group col-xl-6">
+            <label for="">Función de agrupación</label>
+            <nb-select fullWidth placeholder="Función" formControlName="groupByFunction">
+                <nb-option *ngFor="let groupByFunction of groupByFunctions" [value]="groupByFunction.key">
+                    {{ groupByFunction.label }}
                 </nb-option>
             </nb-select>
         </div>

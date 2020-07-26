@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IChartData, IChartArguments } from '../chart-form/chart.service';
-import { LineChart, ChartConstructors, ADMChart } from './chart.model';
+import { ChartConstructors, ADMChart } from './chart.model';
 
 @Component({
     selector: 'app-chart',
